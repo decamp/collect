@@ -10,3 +10,5 @@
 /target/
 /ext/
 /dist/
+/build/
+/build_test/
