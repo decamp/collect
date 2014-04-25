@@ -51,8 +51,7 @@ public class ConcurrentBag<T> extends AbstractCollection<T> {
     public ConcurrentBag( Collection<? extends T> coll ) {
         addAll( coll );
     }
-    
-    
+
     
     /**
      * Returns a direct link to the immutable, internal item list. 
@@ -64,8 +63,7 @@ public class ConcurrentBag<T> extends AbstractCollection<T> {
     public Node<T> head() {
         return mHead;
     }
-        
-    
+
     @Override
     public int size() {
         Node<T> n = mHead;
@@ -77,8 +75,7 @@ public class ConcurrentBag<T> extends AbstractCollection<T> {
         
         return ret;
     }
-    
-    
+
     @Override
     public boolean isEmpty() {
         return mHead == null;
@@ -95,14 +92,12 @@ public class ConcurrentBag<T> extends AbstractCollection<T> {
         mHead = new Node<T>( item, mHead );
         return true;
     }
-    
-    
+
     @Override
     public synchronized void clear() {
         mHead = null;
     }
-    
-    
+
     @Override
     public synchronized boolean remove( Object item ) {
         Node<T> node = mHead;
@@ -120,7 +115,6 @@ public class ConcurrentBag<T> extends AbstractCollection<T> {
         return false;
     }
 
-    
     @Override
     public boolean contains( Object item ) {
         Node<T> node = mHead;
@@ -136,8 +130,7 @@ public class ConcurrentBag<T> extends AbstractCollection<T> {
         
         return false;
     }
-    
-    
+
     /**
      * Returns an iterator for this collection. This iterator will
      * always be valid and will never throw ConcurrentModificationExceptions.
@@ -154,9 +147,9 @@ public class ConcurrentBag<T> extends AbstractCollection<T> {
     public Iterator<T> iterator() {
         return new Iter( mHead );
     }
-    
-    
-    
+
+
+
     public static final class Node<T> {
         public final T mItem;
         public final Node<T> mNext;
@@ -166,8 +159,8 @@ public class ConcurrentBag<T> extends AbstractCollection<T> {
             mNext     = next;
         }
     }
-    
-    
+
+
     
     private synchronized void removeNode( Node<T> node ) {
         Node<T> head = mHead;

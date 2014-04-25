@@ -22,7 +22,8 @@ import java.util.*;
  * intervals in the subtree rooted at the node. Therefore, it can quickly be
  * determined whether a search should proceed in a subtree or whether there is
  * no chance of intersection. Mostly based on CLRS (Introduction to Algorithms)
- * and {@link http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree}
+ * and <a href=http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree>
+ * http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree</a>
  * <p>
  * Bug: The IntervalMap lastEntryByMax() does not resolve ties in a defined way.
  * That is, if there are multiple intervals in the map with the same max value,
@@ -30,10 +31,8 @@ import java.util.*;
  * eventually fixed to return the LAST interval with the greatest max value.
  * This ambiguity extends to IntervalSet and LongIntervalMap.
  * 
- * @param <K>
- *            The key type, which define the intervals.
- * @param <V>
- *            The value type to be associated with an interval
+ * @param <K> The key type that defines the intervals.
+ * @param <V> The value type to be associated with an interval.
  * @author Philip DeCamp
  */
 @SuppressWarnings( "unchecked" )
@@ -258,7 +257,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     /**
      * @param value
      *            A value
-     * @param true iff this map contains an equivalent value.
+     * @return true iff this map contains an equivalent value.
      */
     @Override
     public boolean containsValue( Object value ) {
@@ -380,7 +379,6 @@ public class IntervalMap<K, V> implements Map<K, V> {
                 }
 
                 node = node.mRight;
-                continue;
             }
         }
 
@@ -758,7 +756,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of intervals
-     * @see keySet()
+     * @see #keySet()
      */
     public Set<K> equivKeySet( K key ) {
         return new EquivKeySet( key, false );
@@ -771,7 +769,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of intervals
-     * @see keySet()
+     * @see #keySet()
      */
     public Set<K> descendingEquivKeySet( K key ) {
         return new EquivKeySet( key, true );
@@ -784,7 +782,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of intervals
-     * @see keySet()
+     * @see #keySet()
      */
     public Set<K> intersectionKeySet( K key ) {
         return new IntersectionKeySet( key, false );
@@ -797,7 +795,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of intervals
-     * @see keySet()
+     * @see #keySet()
      */
     public Set<K> descendingIntersectionKeySet( K key ) {
         return new IntersectionKeySet( key, true );
@@ -810,7 +808,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of intervals
-     * @see keySet()
+     * @see #keySet()
      */
     public Set<K> supersetKeySet( K key ) {
         return new SupersetKeySet( key, false );
@@ -823,7 +821,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of intervals
-     * @see keySet()
+     * @see #keySet()
      */
     public Set<K> descendingSupersetKeySet( K key ) {
         return new SupersetKeySet( key, true );
@@ -836,7 +834,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of intervals
-     * @see keySet()
+     * @see #keySet()
      */
     public Set<K> subsetKeySet( K key ) {
         return new SubsetKeySet( key, false );
@@ -849,7 +847,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of intervals
-     * @see keySet()
+     * @see #keySet()
      */
     public Set<K> descendingSubsetKeySet( K key ) {
         return new SubsetKeySet( key, true );
@@ -876,7 +874,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a collection view of values
-     * @see values()
+     * @see #values()
      */
     public Collection<V> equivValues( K key ) {
         return new EquivValues( key, false );
@@ -889,7 +887,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a collection view of values
-     * @see values()
+     * @see #values()
      */
     public Collection<V> descendingEquivValues( K key ) {
         return new EquivValues( key, true );
@@ -902,7 +900,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a collection view of values
-     * @see values()
+     * @see #values()
      */
     public Collection<V> intersectionValues( K key ) {
         return new IntersectionValues( key, false );
@@ -915,7 +913,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a collection view of values
-     * @see values()
+     * @see #values()
      */
     public Collection<V> descendingIntersectionValues( K key ) {
         return new IntersectionValues( key, true );
@@ -928,7 +926,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a collection view of values
-     * @see values()
+     * @see #values()
      */
     public Collection<V> supersetValues( K key ) {
         return new SupersetValues( key, false );
@@ -941,7 +939,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a collection view of values
-     * @see values()
+     * @see #values()
      */
     public Collection<V> descendingSupersetValues( K key ) {
         return new SupersetValues( key, true );
@@ -954,7 +952,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a collection view of values
-     * @see values()
+     * @see #values()
      */
     public Collection<V> subsetValues( K key ) {
         return new SubsetValues( key, false );
@@ -967,7 +965,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a collection view of values
-     * @see values()
+     * @see #values()
      */
     public Collection<V> descendingSubsetValues( K key ) {
         return new SubsetValues( key, true );
@@ -994,7 +992,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of values
-     * @see entrySet()
+     * @see #entrySet()
      */
     public Set<Map.Entry<K, V>> equivEntrySet( K key ) {
         return new EquivEntrySet( key, false );
@@ -1007,7 +1005,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of values
-     * @see entrySet()
+     * @see #entrySet()
      */
     public Set<Map.Entry<K, V>> descendingEquivEntrySet( K key ) {
         return new EquivEntrySet( key, true );
@@ -1020,7 +1018,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of values
-     * @see entrySet()
+     * @see #entrySet()
      */
     public Set<Map.Entry<K, V>> intersectionEntrySet( K key ) {
         return new IntersectionEntrySet( key, false );
@@ -1033,7 +1031,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of values
-     * @see entrySet()
+     * @see #entrySet()
      */
     public Set<Map.Entry<K, V>> descendingIntersectionEntrySet( K key ) {
         return new IntersectionEntrySet( key, true );
@@ -1046,7 +1044,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of values
-     * @see entrySet()
+     * @see #entrySet()
      */
     public Set<Map.Entry<K, V>> supersetEntrySet( K key ) {
         return new SupersetEntrySet( key, false );
@@ -1059,7 +1057,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of values
-     * @see entrySet()
+     * @see #entrySet()
      */
     public Set<Map.Entry<K, V>> descendingSupersetEntrySet( K key ) {
         return new SupersetEntrySet( key, true );
@@ -1072,7 +1070,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of values
-     * @see entrySet()
+     * @see #entrySet()
      */
     public Set<Map.Entry<K, V>> subsetEntrySet( K key ) {
         return new SubsetEntrySet( key, false );
@@ -1085,7 +1083,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key
      *            interval
      * @return a set view of values
-     * @see entrySet()
+     * @see #entrySet()
      */
     public Set<Map.Entry<K, V>> descendingSubsetEntrySet( K key ) {
         return new SubsetEntrySet( key, true );
@@ -1218,8 +1216,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * Returns the node with an equiv key or lower. In the case of multiple
      * equivalent keys, returns the highest one.
      * 
-     * @param key
-     * @return
+     * @param key key
      */
     private Node floorNode( K key ) {
         if( key == null ) {
@@ -1256,8 +1253,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * Returns the node with an equiv key or higher. In the case of multiple
      * equivalent keys, returns the lowest one.
      * 
-     * @param key
-     * @return
+     * @param key key
      */
     private Node ceilingNode( K key ) {
         if( key == null ) {
@@ -2049,10 +2045,9 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
 
 
-    /* ************************************************************
-     * Fundamental Red-Black Tree Operations
-     * ***********************************************************
-     */
+    //************************************************************
+    // Fundamental Red-Black Tree Operations
+    //************************************************************
 
     private static final boolean BLACK = false;
     private static final boolean RED = true;
@@ -2064,9 +2059,9 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * It is assumed that the maxStop stuff has been calculated for all nodes
      * already.
      * 
-     * @param node
-     * @param parent
-     * @param left
+     * @param node   Node to insert
+     * @param parent Parent
+     * @param left   Try left.
      */
     private void insertNode( Node node, Node parent, boolean left ) {
         mSize++;
@@ -2080,10 +2075,10 @@ public class IntervalMap<K, V> implements Map<K, V> {
         node.mParent = parent;
 
         if( left ) {
-            assert (parent.mLeft == null); // added by bcroy
+            assert ( parent.mLeft == null );
             parent.mLeft = node;
         } else {
-            assert (parent.mRight == null); // added by bcroy
+            assert ( parent.mRight == null );
             parent.mRight = node;
         }
 
@@ -2094,14 +2089,12 @@ public class IntervalMap<K, V> implements Map<K, V> {
             }
 
             node.mColor = RED;
-            if( parent.mColor == BLACK ) { // in this case, things are well
-                return; // since red node doesn't have black parent
+            if( parent.mColor == BLACK ) {
+                // in this case, things are well because node does not have black parent.
+                return;
             }
 
-            Node grandParent = parent.mParent; // don't worry about null, since
-                                               // parent is red it can't be
-                                               // root, so it must have a
-                                               // parent.
+            Node grandParent = parent.mParent; // Don't worry about null; parent is red so it can't be root.
             Node uncle = (grandParent.mLeft == parent ? grandParent.mRight : grandParent.mLeft);
 
             if( uncle != null && uncle.mColor == RED ) {
@@ -2139,8 +2132,6 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Remove the given node. Does update mMaxStop stuff.
-     * 
-     * @param node
      */
     private void removeNode( Node node ) {
         mSize--;
@@ -2339,8 +2330,6 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * child B, then after the rotation B will be where "node" was, "node" will
      * be the left child of B, and "node's" right child will be B's old left
      * child.
-     * 
-     * @param node
      */
     private void rotateLeft( final Node node ) {
         final Node right = node.mRight;
@@ -2564,9 +2553,9 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
 
 
-    /* ************************************************************
-     * Node classes ***********************************************************
-     */
+    //************************************************************
+    // Node classes
+    //************************************************************
 
     private final class Node implements Map.Entry<K, V> {
         // Node data
