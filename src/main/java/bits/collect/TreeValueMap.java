@@ -9,8 +9,10 @@ import java.util.*;
 
 
 /**
- * A HashMap that maintains values in sorted order.
- * 
+ * A HashMap that maintains values in sorted order, as compared to {@link java.util.TreeMap}, which
+ * keeps the keys sorted but not the values. This has greater overhead, similar to a {@link java.util.LinkedHashMap},
+ * because each object requires insertion into both a hash map for the keys and a red-black tree for the values.
+ *
  * @author Philip DeCamp
  */
 @SuppressWarnings( { "unchecked", "rawtypes" } )

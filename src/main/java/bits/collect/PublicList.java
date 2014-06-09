@@ -28,13 +28,13 @@ import java.util.*;
 public class PublicList<T> extends AbstractCollection<T> implements List<T> {
     
     
-    public static final <T> PublicList<T> create( Class<T> clazz ) {
+    public static <T> PublicList<T> create( Class<T> clazz ) {
         return create( clazz, 10 );
     }
     
  
     @SuppressWarnings( "unchecked" )
-    public static final <T> PublicList<T> create( Class<T> clazz, int capacity ) {
+    public static <T> PublicList<T> create( Class<T> clazz, int capacity ) {
         return new PublicList<T>( (T[])java.lang.reflect.Array.newInstance( clazz, capacity ) );
     }
     
@@ -402,13 +402,13 @@ public class PublicList<T> extends AbstractCollection<T> implements List<T> {
     }
     
     
-    @Deprecated public static final <T> PublicList<T> newInstance( Class<T> clazz ) {
+    @Deprecated public static <T> PublicList<T> newInstance( Class<T> clazz ) {
         return newInstance( clazz, 10 );
     }
     
  
     @SuppressWarnings( "unchecked" )
-    @Deprecated public static final <T> PublicList<T> newInstance( Class<T> clazz, int capacity ) {
+    @Deprecated public static <T> PublicList<T> newInstance( Class<T> clazz, int capacity ) {
         return new PublicList<T>( (T[])java.lang.reflect.Array.newInstance( clazz, capacity ) );
     }
 }

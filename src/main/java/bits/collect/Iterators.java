@@ -42,8 +42,8 @@ public class Iterators {
         return new ArrayIterator<E>( arr, off, len );
     }
 
-    public static <E> Iterator<E> unmodifiableIterator( Iterable<E> iterable ) {
-        final Iterator<E> it = iterable.iterator();
+
+    public static <E> Iterator<E> unmodifiable( final Iterator<E> it ) {
         return new Iterator<E>() {
             public boolean hasNext() {
                 return it.hasNext();
@@ -58,8 +58,8 @@ public class Iterators {
             }
         };
     }
-    
-   
+
+
     private static class ArrayIterator<E> implements Iterator<E> {
         private final E[] mElements;
         private final int mSize;
@@ -144,5 +144,23 @@ public class Iterators {
             throw new UnsupportedOperationException();
         }
     };
+
+
+    @Deprecated public static <E> Iterator<E> unmodifiableIterator( Iterable<E> iterable ) {
+        final Iterator<E> it = iterable.iterator();
+        return new Iterator<E>() {
+            public boolean hasNext() {
+                return it.hasNext();
+            }
+
+            public E next() {
+                return it.next();
+            }
+
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
+    }
 
 }

@@ -2,41 +2,41 @@
  * Copyright (c) 2012, Massachusetts Institute of Technology
  * Released under the BSD 2-Clause License
  * http://opensource.org/licenses/BSD-2-Clause 
- */ 
+ */
 package bits.collect;
 
 import java.util.*;
+
 
 /**
  * A balanced binary tree that stores intervals. IntervalSet is backed by an
  * IntervalMap. Unlike conventional Sets, IntervalSet will store multiple
  * elements that are equivalent, and will even store the same instance multiple
  * times.
- * <p>
+ * <p/>
  * Intervals are ordered first by minimum value, then maximum, then the order in
  * which they're added to the map.
- * <p>
+ * <p/>
  * An interval tree works by keeping intervals sorted in ascending order by
  * start_time, but each node also maintains the maximum end_time of all
  * intervals in the subtree rooted at the node. Therefore, it can quickly be
  * determined whether a search should proceed in a subtree or whether there is
  * no chance of intersection. Mostly based on CLRS (Introduction to Algorithms)
- * and {@link http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree}
- * <p>
- * Bug: lastByMax() does not resolve ties in a defined way.  That is,
+ * and <a href="http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree"> augmented trees</a>
+ * <p/>
+ * Bug: lastByMax() does not resolve ties in a defined way. That is,
  * if there are multiple intervals in the map with the same max value, IntervalMap makes
  * no guarantees about which will be returned.  This should eventually fixed to return
  * the LAST interval with the greatest max value.  This ambiguity extends to IntervalSet
  * and LongIntervalMap.
-
- * 
+ *
  * @param <E> The element type.
  * @author Philip DeCamp
  */
 public class IntervalSet<E> implements Set<E> {
 
     private final IntervalMap<E, E> mMap;
-    private final Set<E> mKeyView;
+    private final Set<E>            mKeyView;
 
 
     public IntervalSet( IntervalComparator<? super E> comp ) {
@@ -54,14 +54,12 @@ public class IntervalSet<E> implements Set<E> {
     }
 
 
-
     /**
      * &nbsp
-     * 
-     * @param e
-     *            element
+     *
+     * @param e element
      * @return true if set was modified by this call. Unless element is
-     *         <tt>null</tt>, the return value will be <tt>true</tt>.
+     * <tt>null</tt>, the return value will be <tt>true</tt>.
      */
     public boolean add( E e ) {
         if( e == null ) {
@@ -74,11 +72,11 @@ public class IntervalSet<E> implements Set<E> {
 
     public boolean addAll( Collection<? extends E> elements ) {
         boolean ret = false;
-        for( E e : elements ) {
-            if( e == null ) {
+        for( E elem : elements ) {
+            if( elem == null ) {
                 continue;
             }
-            mMap.put( e, e );
+            mMap.put( elem, elem );
             ret = true;
         }
         return ret;
@@ -123,27 +121,24 @@ public class IntervalSet<E> implements Set<E> {
     }
 
 
-
     /**
      * &nbsp
-     * 
-     * @param key
-     *            An interval
+     *
+     * @param e An interval
      * @return true iff this set contains an interval, <code>g</code>, such that
-     *         <code>g</code> has equivalent min and max values as
-     *         <code>e</code> AND <code>e.equals( g )</code>.
+     * <code>g</code> has equivalent min and max values as
+     * <code>e</code> AND <code>e.equals( g )</code>.
      */
     public boolean contains( Object e ) {
         return mMap.containsKey( e );
     }
 
     /**
-     * @param key
-     *            An interval
+     * @param e An interval
      * @return true iff this set contains an interval with equivalent min and
-     *         max values as <i>e</i>. Note that this method may be true even if
-     *         this IntervalSet does not contain any interval <code>g</code>
-     *         such that <code>g.equals( e ) == true</code>.
+     * max values as <i>e</i>. Note that this method may be true even if
+     * this IntervalSet does not contain any interval <code>g</code>
+     * such that <code>g.equals( e ) == true</code>.
      */
     public boolean containsEquiv( Object e ) {
         return mMap.containsEquivKey( e );
@@ -151,14 +146,13 @@ public class IntervalSet<E> implements Set<E> {
 
     /**
      * &nbsp
-     * 
-     * @param elements
-     *            Collection of elements
+     *
+     * @param elements Collection of elements
      * @return true iff all elements are contained by this set.
      */
     public boolean containsAll( Collection<?> elements ) {
-        for( Object obj : elements ) {
-            if( !mMap.containsKey( obj ) ) {
+        for( Object e : elements ) {
+            if( !mMap.containsKey( e ) ) {
                 return false;
             }
         }
@@ -167,52 +161,46 @@ public class IntervalSet<E> implements Set<E> {
     }
 
     /**
-     * @param e
-     *            An interval
+     * @param e An interval
      * @return true iff this Set contains an interval that intersects
-     *         <i>key</i>.
+     * <i>key</i>.
      */
     public boolean containsIntersection( Object e ) {
         return mMap.containsIntersectionKey( e );
     }
 
     /**
-     * @param e
-     *            An interval
+     * @param e An interval
      * @return true iff this map contains an interval that is a subset of
-     *         <i>key</i>.
+     * <i>key</i>.
      */
     public boolean containsSubset( Object e ) {
         return mMap.containsSubsetKey( e );
     }
 
     /**
-     * @param e
-     *            An interval
+     * @param e An interval
      * @return true iff this map contains an interval that is a superset of
-     *         <i>key</i>.
+     * <i>key</i>.
      */
     public boolean containsSuperset( Object e ) {
         return mMap.containsSupersetKey( e );
     }
 
     /**
-     * @param e
-     *            An interval
+     * @param e An interval
      * @return true iff the union of intervals in this Set is a superset of
-     *         <i>e</i>.
+     * <i>e</i>.
      */
     public boolean containsSupersetUnion( Object e ) {
         return mMap.containsSupersetUnion( e );
     }
 
 
-
     /**
      * Removes the the first element with interval equivalent to <tt>e</tt>.
-     * 
-     * @param e
-     *            interval
+     *
+     * @param e interval
      * @return true iff Set was modified by this call.
      */
     public boolean remove( Object e ) {
@@ -221,27 +209,23 @@ public class IntervalSet<E> implements Set<E> {
 
     /**
      * Calls remove(element) for each element in elements.
-     * 
-     * @param e
-     *            element
+     *
+     * @param elements element
      * @return true iff call modified this map.
      */
     public boolean removeAll( Collection<?> elements ) {
         boolean ret = false;
-
         for( Object obj : elements ) {
             ret |= remove( obj );
         }
-
         return ret;
     }
 
     /**
      * Same as remove(e), except that the element that gets removed is returned
      * instead of a boolean value.
-     * 
-     * @param e
-     *            interval
+     *
+     * @param e interval
      * @return the value that is removed by this call
      */
     public E removeEquiv( Object e ) {
@@ -250,9 +234,8 @@ public class IntervalSet<E> implements Set<E> {
 
     /**
      * Removes the first element that intersects <b>e</b>.
-     * 
-     * @param e
-     *            element
+     *
+     * @param e element
      */
     public E removeIntersection( Object e ) {
         return mMap.removeIntersection( e );
@@ -260,9 +243,8 @@ public class IntervalSet<E> implements Set<E> {
 
     /**
      * Removes the mapping for the first interval that's a superset of <b>e</b>.
-     * 
-     * @param e
-     *            interval
+     *
+     * @param e interval
      * @return the value that is removed by this call.
      */
     public E removeSuperset( Object e ) {
@@ -271,14 +253,13 @@ public class IntervalSet<E> implements Set<E> {
 
     /**
      * Removes the mapping for the first interval that's a subset of <b>e</b>.
-     * 
-     * @param einterval
+     *
+     * @param e An interval
      * @return the value that is removed by this call.
      */
     public E removeSubset( Object e ) {
         return mMap.removeSubset( e );
     }
-
 
 
     public E first() {
@@ -295,8 +276,8 @@ public class IntervalSet<E> implements Set<E> {
      * elements <tt>e0...eN</tt> in this IntervalSet such that
      * <tt>e.equals(eM)</tt>, then this method will return the element
      * immediately before the first such elements.
-     * 
-     * @param key
+     *
+     * @param e
      * @return
      */
     public E lower( E e ) {
@@ -308,8 +289,8 @@ public class IntervalSet<E> implements Set<E> {
      * elements <tt>e0...eN</tt> in this IntervalSet such that
      * <tt>e.equals(eM)</tt>, then this method will return the element
      * immediately after the last such elements.
-     * 
-     * @param key
+     *
+     * @param e
      * @return
      */
     public E higher( E e ) {
@@ -322,8 +303,8 @@ public class IntervalSet<E> implements Set<E> {
      * element will be returned. If there are elements <tt>e0...eN</tt> in this
      * IntervalSet such that they not only have equivalent intervals, but also
      * <tt>e.equals(eM)</tt>, then the highest such element will be returned.
-     * 
-     * @param key
+     *
+     * @param e
      * @return
      */
     public E floor( E e ) {
@@ -336,8 +317,8 @@ public class IntervalSet<E> implements Set<E> {
      * returned. If there are elements <tt>e0...eN</tt> in this IntervalSet such
      * that they not only have equivalent intervals, but also
      * <tt>e.equals(eM)</tt>, then the lowest such element will be returned.
-     * 
-     * @param key
+     *
+     * @param e
      * @return
      */
     public E ceiling( E e ) {
@@ -392,7 +373,6 @@ public class IntervalSet<E> implements Set<E> {
     }
 
 
-
     /**
      * @return a Set view of the elements in this Set in descending order.
      */
@@ -403,10 +383,9 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * Returns a Set view of the elements contained in this Set that are
      * equivalent to <tt>e</tt>
-     * 
-     * @param e  interval
+     *
+     * @param e interval
      * @return a set view of intervals
-     * @see keySet()
      */
     public Set<E> equivSet( E e ) {
         return mMap.equivKeySet( e );
@@ -415,10 +394,9 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * Returns a Set view of the elements contained in this Set that are
      * equivalent to <tt>e</tt> in descending order.
-     * 
-     * @param e  interval
+     *
+     * @param e interval
      * @return a set view of intervals
-     * @see keySet()
      */
     public Set<E> descendingEquivSet( E e ) {
         return mMap.descendingEquivKeySet( e );
@@ -427,10 +405,9 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * Returns a Set view of the elements contained in this Set that intersect
      * <tt>e</tt>
-     * 
-     * @param e  interval
+     *
+     * @param e interval
      * @return a set view of intervals
-     * @see keySet()
      */
     public Set<E> intersectionSet( E e ) {
         return mMap.intersectionKeySet( e );
@@ -439,10 +416,9 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * Returns a Set view of the elements contained in this Set that intersect
      * <tt>e</tt> in descending order.
-     * 
-     * @param e  element
+     *
+     * @param e element
      * @return a set view of intervals
-     * @see keySet()
      */
     public Set<E> descendingIntersectionSet( E e ) {
         return mMap.descendingIntersectionKeySet( e );
@@ -451,8 +427,8 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * Returns a Set view of the elements contained in this Set that are
      * supersets of <tt>e</tt>
-     * 
-     * @param e  element
+     *
+     * @param e element
      * @return a set view of intervals
      */
     public Set<E> supersetSet( E e ) {
@@ -462,10 +438,9 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * Returns a set view of the elements contained in this Set that are
      * supersets of <tt>e</tt> in descending order.
-     * 
-     * @param e  interval
+     *
+     * @param e interval
      * @return a set view of intervals
-     * @see keySet()
      */
     public Set<E> descendingSupersetSet( E e ) {
         return mMap.descendingSupersetKeySet( e );
@@ -474,27 +449,24 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * Returns a Set view of the elements contained in this Set that are subsets
      * of <tt>e</tt>
-     * 
-     * @param e  interval
+     *
+     * @param item interval
      * @return a set view of intervals
-     * @see keySet()
      */
-    public Set<E> subsetSet( E key ) {
-        return mMap.subsetKeySet( key );
+    public Set<E> subsetSet( E item ) {
+        return mMap.subsetKeySet( item );
     }
 
     /**
      * Returns a Set view of the elements contained in this Set that are subsets
      * of <tt>e</tt> in descending order.
-     * 
-     * @param e  interval
+     *
+     * @param e interval
      * @return a set view of intervals
-     * @see keySet()
      */
     public Set<E> descendingSubsetSet( E e ) {
         return mMap.descendingSubsetKeySet( e );
     }
-
 
 
     public Object[] toArray() {
