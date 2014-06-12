@@ -299,8 +299,7 @@ public class PublicList<T> extends AbstractCollection<T> implements List<T> {
     public T[] toArray() {
         return Arrays.copyOf( mArr, mSize );
     }
-    
-    
+
     @SuppressWarnings( "unchecked" )
     public <S> S[] toArray( S[] out ) {
         if( out.length < mSize ) {
@@ -400,15 +399,16 @@ public class PublicList<T> extends AbstractCollection<T> implements List<T> {
         }
         
     }
-    
-    
+
+
+
     @Deprecated public static <T> PublicList<T> newInstance( Class<T> clazz ) {
         return newInstance( clazz, 10 );
     }
     
  
-    @SuppressWarnings( "unchecked" )
     @Deprecated public static <T> PublicList<T> newInstance( Class<T> clazz, int capacity ) {
         return new PublicList<T>( (T[])java.lang.reflect.Array.newInstance( clazz, capacity ) );
     }
+
 }

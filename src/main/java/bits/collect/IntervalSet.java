@@ -13,18 +13,18 @@ import java.util.*;
  * IntervalMap. Unlike conventional Sets, IntervalSet will store multiple
  * elements that are equivalent, and will even store the same instance multiple
  * times.
- * <p/>
- * Intervals are ordered first by minimum value, then maximum, then the order in
+ *
+ * <p>Intervals are ordered first by minimum value, then maximum, then the order in
  * which they're added to the map.
- * <p/>
- * An interval tree works by keeping intervals sorted in ascending order by
+ *
+ * <p>An interval tree works by keeping intervals sorted in ascending order by
  * start_time, but each node also maintains the maximum end_time of all
  * intervals in the subtree rooted at the node. Therefore, it can quickly be
  * determined whether a search should proceed in a subtree or whether there is
  * no chance of intersection. Mostly based on CLRS (Introduction to Algorithms)
  * and <a href="http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree"> augmented trees</a>
- * <p/>
- * Bug: lastByMax() does not resolve ties in a defined way. That is,
+ *
+ * <p>Bug: lastByMax() does not resolve ties in a defined way. That is,
  * if there are multiple intervals in the map with the same max value, IntervalMap makes
  * no guarantees about which will be returned.  This should eventually fixed to return
  * the LAST interval with the greatest max value.  This ambiguity extends to IntervalSet

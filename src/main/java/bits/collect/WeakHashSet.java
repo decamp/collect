@@ -2,7 +2,7 @@
  * Copyright (c) 2012, Massachusetts Institute of Technology
  * Released under the BSD 2-Clause License
  * http://opensource.org/licenses/BSD-2-Clause 
- */ 
+ */
 package bits.collect;
 
 import java.util.*;
@@ -21,26 +21,25 @@ import java.lang.ref.*;
  * you try.
  * <p>
  * WeakHashSet is not thread-safe.
- * 
- * @see java.lang.ref.WeakReference
+ *
  * @author Philip DeCamp
+ * @see java.lang.ref.WeakReference
  */
 @SuppressWarnings( "unchecked" )
 public class WeakHashSet<E> extends AbstractSet<E> {
 
-    static final int DEFAULT_INITIAL_CAPACITY = 16;
-    static final float DEFAULT_LOAD_FACTOR = 0.75f;
-    static final int MAXIMUM_CAPACITY = 1 << 30;
+    static final int   DEFAULT_INITIAL_CAPACITY = 16;
+    static final float DEFAULT_LOAD_FACTOR      = 0.75f;
+    static final int   MAXIMUM_CAPACITY         = 1 << 30;
 
 
     private final transient ReferenceQueue<E> mQueue = new ReferenceQueue<E>();
 
-    private Node<E>[] mBuckets;
-    private transient int mSize;
-    private transient int mModCount;
-    private int mThreshold;
-    private final float mLoadFactor;
-
+    private           Node<E>[] mBuckets;
+    private transient int       mSize;
+    private transient int       mModCount;
+    private           int       mThreshold;
+    private final     float     mLoadFactor;
 
 
     public WeakHashSet() {
@@ -52,11 +51,13 @@ public class WeakHashSet<E> extends AbstractSet<E> {
     }
 
     public WeakHashSet( int initialCapacity, float loadFactor ) {
-        if( initialCapacity < 0 )
+        if( initialCapacity < 0 ) {
             throw new IllegalArgumentException( "Illegal initial capacity: " + initialCapacity );
+        }
 
-        if( loadFactor <= 0 || Float.isNaN( loadFactor ) )
+        if( loadFactor <= 0 || Float.isNaN( loadFactor ) ) {
             throw new IllegalArgumentException( "Illegal load factor: " + loadFactor );
+        }
 
         initialCapacity = Math.min( initialCapacity, MAXIMUM_CAPACITY );
         mLoadFactor = loadFactor;
@@ -71,11 +72,11 @@ public class WeakHashSet<E> extends AbstractSet<E> {
     }
 
 
-
     @Override
     public boolean add( E o ) {
-        if( o == null )
+        if( o == null ) {
             return false;
+        }
 
         vacuum();
         return doAdd( o );
@@ -86,20 +87,24 @@ public class WeakHashSet<E> extends AbstractSet<E> {
         vacuum();
 
         int num = c.size();
-        if( num == 0 )
+        if( num == 0 ) {
             return false;
+        }
 
         if( num > mThreshold ) {
             int targetCap = (int)(num / mLoadFactor + 1);
-            if( targetCap > MAXIMUM_CAPACITY )
+            if( targetCap > MAXIMUM_CAPACITY ) {
                 targetCap = MAXIMUM_CAPACITY;
+            }
 
             int newCap = mBuckets.length;
-            while( newCap < targetCap )
+            while( newCap < targetCap ) {
                 newCap <<= 1;
+            }
 
-            if( newCap > mBuckets.length )
+            if( newCap > mBuckets.length ) {
                 resize( newCap );
+            }
         }
 
         boolean modified = false;
@@ -122,14 +127,16 @@ public class WeakHashSet<E> extends AbstractSet<E> {
         }
 
         mSize = 0;
-        while( mQueue.poll() != null )
+        while( mQueue.poll() != null ) {
             ;
+        }
     }
 
     @Override
     public boolean contains( Object o ) {
-        if( o == null )
+        if( o == null ) {
             return false;
+        }
 
         final Node<E>[] buckets = mBuckets;
         final int hash = rehash( o.hashCode() );
@@ -137,8 +144,9 @@ public class WeakHashSet<E> extends AbstractSet<E> {
 
         Node<E> node = buckets[idx];
         while( node != null ) {
-            if( hash == node.mHash && o.equals( node.get() ) )
+            if( hash == node.mHash && o.equals( node.get() ) ) {
                 return true;
+            }
 
             node = node.mNext;
         }
@@ -149,8 +157,9 @@ public class WeakHashSet<E> extends AbstractSet<E> {
     @Override
     public boolean containsAll( Collection<?> c ) {
         for( Object o : c ) {
-            if( !contains( o ) )
+            if( !contains( o ) ) {
                 return false;
+            }
         }
 
         return true;
@@ -158,8 +167,9 @@ public class WeakHashSet<E> extends AbstractSet<E> {
 
     @Override
     public boolean remove( Object o ) {
-        if( o == null )
+        if( o == null ) {
             return false;
+        }
 
         vacuum();
         Node<E>[] buckets = mBuckets;
@@ -195,9 +205,9 @@ public class WeakHashSet<E> extends AbstractSet<E> {
      * garbage collection has run since the last time the set was modified,
      * WeakHashSet may contain empty nodes that would not normally count towards
      * the collection size.
-     * 
+     *
      * @return estimated size of the set, not correcting for
-     *         garbage-collected nodes.
+     * garbage-collected nodes.
      * @see #vacuum()
      */
     @Override
@@ -210,10 +220,10 @@ public class WeakHashSet<E> extends AbstractSet<E> {
      * <pre>
      * size() == 0
      * </pre>
-     * 
+     * <p/>
      * Like size(), this method is only an estimate, and does not correct for
      * garbage-collected nodes.
-     * 
+     *
      * @return true iff the estimated size of the set is 0.
      * @see #size()
      * @see #vacuum()
@@ -226,7 +236,7 @@ public class WeakHashSet<E> extends AbstractSet<E> {
     /**
      * Cleans set by removing all nodes that contain garbage-collected elements.
      * Vacuum is called automatically on all set modification methods.
-     * 
+     *
      * @return size of the set immediately after vacuuming has been performed.
      */
     public int vacuum() {
@@ -234,17 +244,14 @@ public class WeakHashSet<E> extends AbstractSet<E> {
         while( (node = (Node<E>)mQueue.poll()) != null ) {
             removeNode( node );
         }
-
         return mSize;
     }
-
 
 
     @Override
     public Iterator<E> iterator() {
         return new SetIterator();
     }
-
 
 
     private boolean doAdd( E element ) {
@@ -254,9 +261,9 @@ public class WeakHashSet<E> extends AbstractSet<E> {
 
         Node<E> old = buckets[idx];
         while( old != null ) {
-            if( hash == old.mHash && element.equals( old.get() ) )
+            if( hash == old.mHash && element.equals( old.get() ) ) {
                 return false;
-
+            }
             old = old.mNext;
         }
 
@@ -271,8 +278,9 @@ public class WeakHashSet<E> extends AbstractSet<E> {
         node = new Node<E>( element, hash, node, mQueue );
         buckets[idx] = node;
 
-        if( mSize++ >= mThreshold )
+        if( mSize++ >= mThreshold ) {
             resize( 2 * buckets.length );
+        }
     }
 
     private void removeNode( Node<E> node ) {
@@ -335,14 +343,13 @@ public class WeakHashSet<E> extends AbstractSet<E> {
     }
 
 
-
     private class SetIterator implements Iterator<E> {
         Node<E> mCurrent;
         Node<E> mNext;
-        E mCurrentElement;
-        E mNextElement;
-        int mIterModCount;
-        int mIndex;
+        E       mCurrentElement;
+        E       mNextElement;
+        int     mIterModCount;
+        int     mIndex;
 
         SetIterator() {
             mIterModCount = mModCount;
@@ -354,8 +361,9 @@ public class WeakHashSet<E> extends AbstractSet<E> {
 
                     while( mNext != null ) {
                         mNextElement = mNext.get();
-                        if( mNextElement != null )
+                        if( mNextElement != null ) {
                             return;
+                        }
 
                         mNext = mNext.mNext;
                     }
@@ -369,11 +377,12 @@ public class WeakHashSet<E> extends AbstractSet<E> {
         }
 
         public void remove() {
-            if( mCurrent == null )
+            if( mCurrent == null ) {
                 throw new IllegalStateException();
-
-            if( mModCount != mIterModCount )
+            }
+            if( mModCount != mIterModCount ) {
                 throw new ConcurrentModificationException();
+            }
 
             removeNode( mCurrent );
             mCurrent = null;
@@ -382,11 +391,12 @@ public class WeakHashSet<E> extends AbstractSet<E> {
         }
 
         public E next() {
-            if( mModCount != mIterModCount )
+            if( mModCount != mIterModCount ) {
                 throw new ConcurrentModificationException();
-
-            if( mNext == null )
+            }
+            if( mNext == null ) {
                 throw new NoSuchElementException();
+            }
 
             mCurrent = mNext;
             mCurrentElement = mNextElement;
@@ -398,30 +408,27 @@ public class WeakHashSet<E> extends AbstractSet<E> {
             while( true ) {
                 while( mNext != null ) {
                     mNextElement = mNext.get();
-                    if( mNextElement != null )
+                    if( mNextElement != null ) {
                         return mCurrentElement;
+                    }
 
                     mNext = mNext.mNext;
                 }
-
-                if( mIndex >= buckets.length )
+                if( mIndex >= buckets.length ) {
                     return mCurrentElement;
-
+                }
                 mNext = buckets[mIndex++];
             }
         }
     }
 
 
-
     private static final class Node<E> extends WeakReference<E> {
-
         final int mHash;
         Node<E> mNext;
 
         Node( E value, int hash, Node<E> next, ReferenceQueue<E> queue ) {
             super( value, queue );
-
             mHash = hash;
             mNext = next;
         }

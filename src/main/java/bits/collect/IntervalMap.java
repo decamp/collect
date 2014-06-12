@@ -9,14 +9,13 @@ import java.util.*;
 
 
 /**
- * A balanced binary tree that stores intervals and associated values.
- * <p/>
- * Multiple overlapping or equivalent intervals are allowed. Null keys are not
- * supported.
- * <p/>
+ * A balanced binary tree that maps intervals to values. Multiple overlapping or equivalent intervals
+ * map be stored. Entries may be fetched based on interval intersection, superset, subset, and equivalence testing.
+ * Null keys are not supported.
+ * <p>
  * Intervals are ordered first by minimum value, then maximum, then the order in
  * which they're added to the map.
- * <p/>
+ * <p>
  * An interval tree works by keeping intervals sorted in ascending order by
  * start_time, but each node also maintains the maximum end_time of all
  * intervals in the subtree rooted at the node. Therefore, it can quickly be
@@ -24,15 +23,24 @@ import java.util.*;
  * no chance of intersection. Mostly based on CLRS (Introduction to Algorithms)
  * and <a href=http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree>
  * http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree</a>
- * <p/>
- * Bug: The IntervalMap lastEntryByMax() does not resolve ties in a defined way.
+ * <p>
+ * Although it is convention in mathematics that open and half-open sets that are
+ * degenaret (have equivalent endpoints) do not contain the endpoint,
+ * IntervalMap uses the opposing convention and treats degenerate sets as if they DO contain their endpoint:
+ * ( <tt>3 in [3,3)</tt>, and <tt>3 in (3,3)</tt> ).
+ * The result of this is that IntervalMap can store degenerate intervals and will retrieve
+ * degenerate intervals for all query types. Note well, however, that any custom-defined
+ * IntervalComparators must handle degenerate intervals accordingly; as if the endpoints
+ * are actually infinitesimally separated!
+ *
+ * <p>Issue: The IntervalMap lastEntryByMax() does not resolve ties in a defined way.
  * That is, if there are multiple intervals in the map with the same max value,
  * IntervalMap makes no guarantees about which will be returned. This should
  * eventually fixed to return the LAST interval with the greatest max value.
  * This ambiguity extends to IntervalSet and LongIntervalMap.
  *
  * @param <K> The key type that defines the intervals.
- * @param <V> The value type to be associated with an interval.
+ * @param <V> The value type associated with each interval.
  * @author Philip DeCamp
  */
 @SuppressWarnings( "unchecked" )

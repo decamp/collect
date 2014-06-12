@@ -22,6 +22,7 @@ public class Iterators {
         return EMPTY_ITERATOR;
     }
 
+
     public static <E> Iterator<E> wrapObject( E obj ) {
         return new SingleIterator<E>( obj );
     }
