@@ -1,6 +1,6 @@
-<project name="unknown" default="jar" basedir=".">
+<project name="collect" default="jar" basedir=".">
   <description>
-    Data structures library.
+    Data collections library.
   </description>
   
   <!-- Version control system. Options: "git", "svn", or "unversioned". -->
