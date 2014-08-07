@@ -13,7 +13,7 @@ import java.lang.ref.*;
 /**
  * Like {@link java.util.WeakHashMap}, but instead of weakly referencing the
  * keys, the values are weakly referenced. This is useful in cases where values
- * are expected to hold their own keys. It also allows the use of normal key
+ * are expected to hold their own keys. It also allows the use of normal mKey
  * comparisons instead of expecting <tt>==</tt> to work.
  * <p>
  * Note that WeakValueHashMap only removes stale entries when modified, which
@@ -21,8 +21,8 @@ import java.lang.ref.*;
  * clear stale entries.) Stale entries are never returned by any method,
  * including methods in associated iterators and views.
  * <p>
- * WeakValueHashMap supports the null value as a key, but cannot contain "null"
- * as a value. That is, put(key, null) is equivalent to remove(key).
+ * WeakValueHashMap supports the null mValue as a mKey, but cannot contain "null"
+ * as a mValue. That is, put(mKey, null) is equivalent to remove(mKey).
  * <p>
  * WeakValueHashMap is not thread-safe.
  * 
@@ -189,8 +189,7 @@ public class WeakValueHashMap<K, V> extends AbstractMap<K, V> {
         }
 
         mSize = 0;
-        while( mQueue.poll() != null )
-            ;
+        while( mQueue.poll() != null );
     }
 
     @Override
@@ -218,7 +217,6 @@ public class WeakValueHashMap<K, V> extends AbstractMap<K, V> {
         return mSize;
     }
 
-    
 
     @Override
     public Set<K> keySet() {

@@ -17,7 +17,7 @@ import java.lang.ref.*;
  * clear stale entries.) Stale entries are never returned by any method,
  * including methods in associated iterators and views.
  * <p>
- * WeakHashSet will not store the null value, but won't throw an exception if
+ * WeakHashSet will not store the null mValue, but won't throw an exception if
  * you try.
  * <p>
  * WeakHashSet is not thread-safe.

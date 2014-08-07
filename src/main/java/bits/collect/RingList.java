@@ -492,7 +492,7 @@ public class RingList<E> extends AbstractCollection<E> implements Queue<E>, List
         
         public void remove() {
             if( mPrev < 0 ) {
-                throw new IllegalStateException( "No call to next() or present()." );
+                throw new IllegalStateException( "No call to mNext() or present()." );
             }
             assertUnmodified();
             doRemove( mPrev );
@@ -507,7 +507,7 @@ public class RingList<E> extends AbstractCollection<E> implements Queue<E>, List
 
         public void set( E o ) {
             if( mPrev < 0 ) {
-                throw new IllegalStateException( "No prior call to next() or previous()." );
+                throw new IllegalStateException( "No prior call to mNext() or previous()." );
             }
             assertUnmodified();
             RingList.this.set( mPrev, o );

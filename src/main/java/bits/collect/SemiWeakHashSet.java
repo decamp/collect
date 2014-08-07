@@ -19,7 +19,7 @@ import java.lang.ref.*;
  * Stale entries are never returned by any method, including methods in
  * associated iterators and views.
  * <p>
- * SemiWeakHashSet will not store the null value, but won't throw an exception
+ * SemiWeakHashSet will not store the null mValue, but won't throw an exception
  * if you try.
  * <p>
  * SemiWeakHashSet is not thread-safe.

@@ -21,8 +21,8 @@ public interface IntervalComparator<T> {
      *
      * @param a  First object to compare.
      * @param b  Second object to compare.
-     * @return negative value iff min of <tt>a</tt> is less than min of <tt>b</tt>;
-     *         0 iff equivalent; positive value iff min of <tt>a</tt> is greater
+     * @return negative mValue iff min of <tt>a</tt> is less than min of <tt>b</tt>;
+     *         0 iff equivalent; positive mValue iff min of <tt>a</tt> is greater
      *         than min of <tt>b</tt>
      */
     public int compareMins( T a, T b );
@@ -32,20 +32,20 @@ public interface IntervalComparator<T> {
      *
      * @param a  First object to compare.
      * @param b  Second object to compare.
-     * @return negative value iff max of <tt>a</tt> is less than max of <tt>b</tt>;
-     *         0 iff equivalent; positive value iff max of <tt>a</tt> is greater
+     * @return negative mValue iff max of <tt>a</tt> is less than max of <tt>b</tt>;
+     *         0 iff equivalent; positive mValue iff max of <tt>a</tt> is greater
      *         than max of <tt>b</tt>
      */
     public int compareMaxes( T a, T b );
 
     /**
-     * Compare the minimum value of one interval to the maximum value of
+     * Compare the minimum mValue of one interval to the maximum mValue of
      * another.
      *
      * @param a  First object to compare.
      * @param b  Second object to compare.
-     * @return negative value iff min of <tt>a</tt> is smaller than max of
-     *         <tt>b</tt>; 0 iff equivalent; positive value iff min of <tt>a</tt> is
+     * @return negative mValue iff min of <tt>a</tt> is smaller than max of
+     *         <tt>b</tt>; 0 iff equivalent; positive mValue iff min of <tt>a</tt> is
      *         greater than maxof <tt>b</tt>
      */
     public int compareMinToMax( T a, T b );

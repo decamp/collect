@@ -27,7 +27,7 @@ public class TreeValueMap<K,V> extends AbstractMap<K,V> {
     //Shared values
     private transient int mModCount  = 0;
     
-    //Values for key table.
+    //Values for mKey table.
     private Node<K,V>[] mBuckets;
     private transient int mKeyCount = 0;
     private final float mLoadFactor;
@@ -371,7 +371,7 @@ public class TreeValueMap<K,V> extends AbstractMap<K,V> {
     /*************************************************************
      * Fundamental Red-Black Tree Operations
      * 
-     * These operations do not look at the value portion of any
+     * These operations do not look at the mValue portion of any
      * node, and thus may be easily transferred to other classes.  These methods
      * only rely on two member variables: mRoot, mSize and mModCount.
      *************************************************************/

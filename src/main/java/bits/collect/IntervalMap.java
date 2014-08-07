@@ -13,7 +13,7 @@ import java.util.*;
  * map be stored. Entries may be fetched based on interval intersection, superset, subset, and equivalence testing.
  * Null keys are not supported.
  * <p>
- * Intervals are ordered first by minimum value, then maximum, then the order in
+ * Intervals are ordered first by minimum mValue, then maximum, then the order in
  * which they're added to the map.
  * <p>
  * An interval tree works by keeping intervals sorted in ascending order by
@@ -34,13 +34,13 @@ import java.util.*;
  * are actually infinitesimally separated!
  *
  * <p>Issue: The IntervalMap lastEntryByMax() does not resolve ties in a defined way.
- * That is, if there are multiple intervals in the map with the same max value,
+ * That is, if there are multiple intervals in the map with the same max mValue,
  * IntervalMap makes no guarantees about which will be returned. This should
- * eventually fixed to return the LAST interval with the greatest max value.
+ * eventually fixed to return the LAST interval with the greatest max mValue.
  * This ambiguity extends to IntervalSet and LongIntervalMap.
  *
- * @param <K> The key type that defines the intervals.
- * @param <V> The value type associated with each interval.
+ * @param <K> The mKey type that defines the intervals.
+ * @param <V> The mValue type associated with each interval.
  * @author Philip DeCamp
  */
 @SuppressWarnings( "unchecked" )
@@ -71,7 +71,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * @param key An interval
      * @return true iff this map contains an interval, <code>g</code>, such that
      * <code>g</code> has equivalent min and max values as
-     * <code>key</code> AND <code>key.equals( g )</code>.
+     * <code>mKey</code> AND <code>mKey.equals( g )</code>.
      */
     @Override
     public boolean containsKey( Object key ) {
@@ -92,9 +92,9 @@ public class IntervalMap<K, V> implements Map<K, V> {
     /**
      * @param key An interval
      * @return true iff this map contains an interval with equivalent min and
-     * max values as <i>key</i>. Note that this method may be true even
+     * max values as <i>mKey</i>. Note that this method may be true even
      * if this IntervalMap does not contain any interval <code>g</code>
-     * such that <code>g.equals( key ) == true</code>.
+     * such that <code>g.equals( mKey ) == true</code>.
      */
     public boolean containsEquivKey( Object key ) {
         return firstEquivNode( (K)key ) != null;
@@ -103,7 +103,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     /**
      * @param key An interval
      * @return true iff this map contains an interval that intersects
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsIntersectionKey( Object key ) {
         return firstIntersectionNode( mRoot, (K)key ) != null;
@@ -112,7 +112,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     /**
      * @param key An interval
      * @return true iff this map contains an interval that is a subset of
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsSubsetKey( Object key ) {
         return firstIntersectionNode( mRoot, (K)key ) != null;
@@ -121,7 +121,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     /**
      * @param key An interval
      * @return true iff this map contains an interval that is a superset of
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsSupersetKey( Object key ) {
         return firstSupersetNode( (K)key ) != null;
@@ -130,7 +130,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     /**
      * @param key An interval
      * @return true iff the union of intervals in this map is a superset of
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsSupersetUnion( Object key ) {
         final K k = (K)key;
@@ -146,7 +146,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
             if( mComp.compareMinToMax( k, node.mKey ) < 0 &&
                 mComp.compareMins( k, node.mKey ) >= 0 )
             {
-                // Check if this node completely contains key.
+                // Check if this node completely contains mKey.
                 if( mComp.compareMaxes( k, node.mKey ) <= 0 ) {
                     return true;
                 }
@@ -257,8 +257,8 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * @param value A value
-     * @return true iff this map contains an equivalent value.
+     * @param value A mValue
+     * @return true iff this map contains an equivalent mValue.
      */
     @Override
     public boolean containsValue( Object value ) {
@@ -290,7 +290,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * &nbsp
      *
      * @param key interval
-     * @return value mapped to first interval equivalent to <b>key</b> contained
+     * @return mValue mapped to first interval equivalent to <b>mKey</b> contained
      * in this map.
      */
     @Override
@@ -301,7 +301,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * @param key interval
-     * @return value mapped to first interval intersecting <b>key</b> contained
+     * @return mValue mapped to first interval intersecting <b>mKey</b> contained
      * in this map.
      */
     public V getIntersection( Object key ) {
@@ -311,8 +311,8 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * @param key interval
-     * @return value mapped to first interval in this map that is a superset of
-     * <b>key</b>.
+     * @return mValue mapped to first interval in this map that is a superset of
+     * <b>mKey</b>.
      */
     public V getSuperset( Object key ) {
         Node node = firstSupersetNode( (K)key );
@@ -321,8 +321,8 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * @param key interval
-     * @return value mapped to first interval in this map that is a subset of
-     * <b>key</b>.
+     * @return mValue mapped to first interval in this map that is a subset of
+     * <b>mKey</b>.
      */
     public V getSubset( Object key ) {
         Node node = firstSubsetNode( (K)key );
@@ -334,7 +334,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      * &nbsp
      *
      * @param key   interval
-     * @param value Arbitrary value
+     * @param value Arbitrary mValue
      * @return null (Existing mappings are never overwritten by calls to
      * <i>put()</i>)
      */
@@ -394,10 +394,10 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Removes the mapping for the first interval that is equivalent to
-     * <b>key</b>.
+     * <b>mKey</b>.
      *
      * @param key interval
-     * @return the value that is removed by this call
+     * @return the mValue that is removed by this call
      */
     @Override
     public V remove( Object key ) {
@@ -411,10 +411,10 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Removes the mapping for the first interval that intersects <b>key</b>.
+     * Removes the mapping for the first interval that intersects <b>mKey</b>.
      *
      * @param key interval
-     * @return the value that is removed by this call.
+     * @return the mValue that is removed by this call.
      */
     public V removeIntersection( Object key ) {
         Node node = firstIntersectionNode( mRoot, (K)key );
@@ -428,10 +428,10 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Removes the mapping for the first interval that's a superset of
-     * <b>key</b>.
+     * <b>mKey</b>.
      *
      * @param key interval
-     * @return the value that is removed by this call.
+     * @return the mValue that is removed by this call.
      */
     public V removeSuperset( Object key ) {
         Node node = firstSupersetNode( (K)key );
@@ -444,10 +444,10 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Removes the mapping for the first interval that's a subset of <b>key</b>.
+     * Removes the mapping for the first interval that's a subset of <b>mKey</b>.
      *
      * @param key interval
-     * @return the value that is removed by this call.
+     * @return the mValue that is removed by this call.
      */
     public V removeSubset( Object key ) {
         Node node = firstSubsetNode( (K)key );
@@ -506,7 +506,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
         Node node = floorNode( key );
         Node afterEqNode = null;
 
-        // Find equals() key, if there is one.
+        // Find equals() mKey, if there is one.
         while( node != null ) {
             if( mComp.compareMins( key, node.mKey ) != 0 ||
                 mComp.compareMaxes( key, node.mKey ) != 0 )
@@ -537,7 +537,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
         Node node = ceilingNode( key );
         Node afterEqNode = null;
 
-        // Find equals() equivalent key, if there is one.
+        // Find equals() equivalent mKey, if there is one.
         while( node != null ) {
             if( mComp.compareMins( key, node.mKey ) != 0 ||
                 mComp.compareMaxes( key, node.mKey ) != 0 )
@@ -546,7 +546,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
             }
 
             if( key.equals( node.mKey ) ) {
-                // Found equals() equiv node. Return next node.
+                // Found equals() equiv node. Return mNext node.
                 node = afterEqNode = nextNode( node );
             } else {
                 node = nextNode( node );
@@ -619,7 +619,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * @return the entry with the greatest max interval value.
+     * @return the entry with the greatest max interval mValue.
      */
     public Map.Entry<K, V> lastEntryByMax() {
         Node root = mRoot;
@@ -627,7 +627,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * @return the key with the greastest max interval value.
+     * @return the mKey with the greastest max interval mValue.
      */
     public K lastKeyByMax() {
         Node root = mRoot;
@@ -736,8 +736,8 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Returns a set view of the key contained in this map that are equivalent
-     * to <tt>key</tt>
+     * Returns a set view of the mKey contained in this map that are equivalent
+     * to <tt>mKey</tt>
      *
      * @param key interval
      * @return a set view of intervals
@@ -749,7 +749,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the keys contained in this map that are equivalent
-     * to <tt>key</tt> in descending order.
+     * to <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a set view of intervals
@@ -761,7 +761,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the intervals contained in this map that intersect
-     * <tt>key</tt>
+     * <tt>mKey</tt>
      *
      * @param key interval
      * @return a set view of intervals
@@ -773,7 +773,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the intervals contained in this map that intersect
-     * <tt>key</tt> in descending order.
+     * <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a set view of intervals
@@ -785,7 +785,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * supersets of <tt>key</tt>
+     * supersets of <tt>mKey</tt>
      *
      * @param key interval
      * @return a set view of intervals
@@ -797,7 +797,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * supersets of <tt>key</tt> in descending order.
+     * supersets of <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a set view of intervals
@@ -809,7 +809,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * subsets of <tt>key</tt>
+     * subsets of <tt>mKey</tt>
      *
      * @param key interval
      * @return a set view of intervals
@@ -821,7 +821,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * subsets of <tt>key</tt> in descending order.
+     * subsets of <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a set view of intervals
@@ -846,7 +846,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals
-     * equivalent to <tt>key</tt>.
+     * equivalent to <tt>mKey</tt>.
      *
      * @param key interval
      * @return a collection view of values
@@ -858,7 +858,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals
-     * equivalent to <tt>key</tt> in descending order.
+     * equivalent to <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a collection view of values
@@ -870,7 +870,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * intersect <tt>key</tt>.
+     * intersect <tt>mKey</tt>.
      *
      * @param key interval
      * @return a collection view of values
@@ -882,7 +882,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * intersect <tt>key</tt> in descending order.
+     * intersect <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a collection view of values
@@ -894,7 +894,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * are supersets of <tt>key</tt>.
+     * are supersets of <tt>mKey</tt>.
      *
      * @param key interval
      * @return a collection view of values
@@ -906,7 +906,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * are supersets of <tt>key</tt> in descending order.
+     * are supersets of <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a collection view of values
@@ -918,7 +918,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * are subsets of <tt>key</tt>.
+     * are subsets of <tt>mKey</tt>.
      *
      * @param key interval
      * @return a collection view of values
@@ -930,7 +930,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * are subsets of <tt>key</tt> in descending order.
+     * are subsets of <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a collection view of values
@@ -955,7 +955,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the mappings that contain intervals equivalent to
-     * <tt>key</tt>.
+     * <tt>mKey</tt>.
      *
      * @param key interval
      * @return a set view of values
@@ -967,7 +967,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the mappings that contain intervals equivalent to
-     * <tt>key</tt> in descending order.
+     * <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a set view of values
@@ -979,7 +979,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that intersect
-     * <tt>key</tt>.
+     * <tt>mKey</tt>.
      *
      * @param key interval
      * @return a set view of values
@@ -991,7 +991,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that intersect
-     * <tt>key</tt> in descending order.
+     * <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a set view of values
@@ -1003,7 +1003,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that are
-     * supersets of <tt>key</tt>.
+     * supersets of <tt>mKey</tt>.
      *
      * @param key interval
      * @return a set view of values
@@ -1015,7 +1015,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that are
-     * supersets of <tt>key</tt> in descending order.
+     * supersets of <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a set view of values
@@ -1027,7 +1027,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that are
-     * subsets of <tt>key</tt>.
+     * subsets of <tt>mKey</tt>.
      *
      * @param key interval
      * @return a set view of values
@@ -1039,7 +1039,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that are
-     * subsets of <tt>key</tt> in descending order.
+     * subsets of <tt>mKey</tt> in descending order.
      *
      * @param key interval
      * @return a set view of values
@@ -1165,10 +1165,10 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Returns the node with an equiv key or lower. In the case of multiple
+     * Returns the node with an equiv mKey or lower. In the case of multiple
      * equivalent keys, returns the highest one.
      *
-     * @param key key
+     * @param key mKey
      */
     private Node floorNode( K key ) {
         if( key == null ) {
@@ -1202,10 +1202,10 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Returns the node with an equiv key or higher. In the case of multiple
+     * Returns the node with an equiv mKey or higher. In the case of multiple
      * equivalent keys, returns the lowest one.
      *
-     * @param key key
+     * @param key mKey
      */
     private Node ceilingNode( K key ) {
         if( key == null ) {
@@ -1380,7 +1380,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
                         return node;
                     }
 
-                    // If key is entirely before node, return null.
+                    // If mKey is entirely before node, return null.
                     if( mComp.compareMinToMax( node.mKey, key ) >= 0 ) {
                         return null;
                     }
@@ -1432,9 +1432,9 @@ public class IntervalMap<K, V> implements Map<K, V> {
         while( true ) {
             int c = mComp.compareMinToMax( node.mKey, key );
             if( c < 0 ) {
-                // Node does not occur completely after key.
+                // Node does not occur completely after mKey.
 
-                // Check if right subtree might intersect key.
+                // Check if right subtree might intersect mKey.
                 if( node.mRight != null && mComp.compareMinToMax( key, node.mRight.mMaxStop.mKey ) < 0 ) {
                     node = node.mRight;
                     continue;
@@ -1571,7 +1571,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Finds a node that contains a key, where the search will only traverse
+     * Finds a node that contains a mKey, where the search will only traverse
      * children nodes. Searches all subtrees from left to right, depth first.
      * Assumes node parameter HAS NOT already been checked, and may be returned.
      *
@@ -1585,7 +1585,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
                 continue;
             }
 
-            // Check if current node contains key.
+            // Check if current node contains mKey.
             int c = mComp.compareMins( key, node.mKey );
 
             if( c >= 0 && mComp.compareMaxes( key, node.mKey ) <= 0 ) {
@@ -1606,7 +1606,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Finds a node that contains a key, where the search will only traverse
+     * Finds a node that contains a mKey, where the search will only traverse
      * parent nodes. Searches parent nodes and right subtrees. The node
      * parameter will not be returned.
      *
@@ -1633,7 +1633,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
                         return true;
                     }
 
-                    // Check if right might contain key.
+                    // Check if right might contain mKey.
                     if( node.mRight != null ) {
                         if( mComp.compareMaxes( key, node.mRight.mMaxStop.mKey ) <= 0 ) {
                             // Request downward search on right subtree.
@@ -1651,7 +1651,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Finds a node that contains a key, where the search will only traverse
+     * Finds a node that contains a mKey, where the search will only traverse
      * children nodes. Searches all subtrees from right to left, depth first.
      * Assumes node parameter HAS NOT already been checked, and may be returned.
      *
@@ -1659,7 +1659,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
      */
     private boolean searchDownForPrevSupersetNode( Node node, K key, Object[] ret ) {
         while( true ) {
-            // Check if current node is beyond key.
+            // Check if current node is beyond mKey.
             int c = mComp.compareMins( key, node.mKey );
 
             if( c >= 0 ) {
@@ -1669,7 +1669,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
                     continue;
                 }
 
-                // Check if current node contains key.
+                // Check if current node contains mKey.
                 if( mComp.compareMaxes( key, node.mKey ) <= 0 ) {
                     ret[0] = node;
                     return true;
@@ -1689,7 +1689,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Finds a node that contains a key, where the search will only traverse
+     * Finds a node that contains a mKey, where the search will only traverse
      * parent nodes. Searches parent nodes and left subtrees. The node parameter
      * will not be returned.
      *
@@ -1716,7 +1716,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
                     }
                 }
 
-                // Check if left subtree might contain key.
+                // Check if left subtree might contain mKey.
                 if( node.mLeft != null && mComp.compareMaxes( key, node.mLeft.mMaxStop.mKey ) <= 0 ) {
                     // Request downward search on left subtree.
                     ret[0] = node.mLeft;
@@ -1805,7 +1805,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
     private boolean searchDownForNextSubsetNode( Node node, K key, Object[] ret ) {
         while( true ) {
-            // Check if current node occurs before or after key.
+            // Check if current node occurs before or after mKey.
             int c = mComp.compareMins( key, node.mKey );
 
             // Descend left subtree if it might have subset node.
@@ -1822,7 +1822,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
                     return true;
                 }
 
-                // Descend right node if key intersects current node.
+                // Descend right node if mKey intersects current node.
                 if( node.mRight != null && mComp.compareMinToMax( node.mKey, key ) < 0 ) {
                     node = node.mRight;
                     continue;
@@ -1830,7 +1830,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
             } else {
                 // Key starts after node. Descend right node if maxstop
-                // intersects key.
+                // intersects mKey.
                 if( node.mRight != null && mComp.compareMinToMax( key, node.mRight.mMaxStop.mKey ) < 0 ) {
                     node = node.mRight;
                     continue;
@@ -1865,7 +1865,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
                 // current node or right subtree.
 
                 // We'd would never search to the left of a node that started
-                // before the key,
+                // before the mKey,
                 // so don't bother checking mins.
                 if( mComp.compareMaxes( key, node.mKey ) >= 0 ) {
                     ret[0] = node;
@@ -1890,7 +1890,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
     private boolean searchDownForPrevSubsetNode( Node node, K key, Object[] ret ) {
         while( true ) {
 
-            // Check if current node occurs before or after key.
+            // Check if current node occurs before or after mKey.
             int c = mComp.compareMins( key, node.mKey );
 
             if( c <= 0 ) { // Key starts before node.
@@ -1910,7 +1910,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
 
             } else {
                 // Key starts after node. Descend right node if maxStop
-                // intersects key.
+                // intersects mKey.
                 if( node.mRight != null && mComp.compareMinToMax( key, node.mRight.mMaxStop.mKey ) < 0 ) {
                     node = node.mRight;
                     continue;
@@ -2497,7 +2497,7 @@ public class IntervalMap<K, V> implements Map<K, V> {
         public Node    mRight  = null;
 
         // Interval tree stuff: The descendent (or this) node with the greatest
-        // stop value
+        // stop mValue
         public Node mMaxStop;
 
         public Node( K key, V value ) {

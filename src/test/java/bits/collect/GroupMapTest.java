@@ -489,7 +489,7 @@ public class GroupMapTest {
             assertEquals("Entry iter mismatch", v1, entry.getValue());
             assertEquals("Key iter mismatch", key, entry.getKey());
             
-            assertEquals("Get by key error", map.get(key), v1); 
+            assertEquals("Get by mKey error", map.get(key), v1);
         }
     }
     

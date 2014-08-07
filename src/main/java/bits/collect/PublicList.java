@@ -20,7 +20,7 @@ import java.util.*;
  * references that will prevent objects from being finalized.
  * <p>
  * On the bright side, there are only two fields: <code>mArr</code> and <code>mSize</code>.
- * As long as never give <code>mSize</code> a value that is out-of-bounds for <code>mArr</code>,
+ * As long as never give <code>mSize</code> a mValue that is out-of-bounds for <code>mArr</code>,
  * you'll probably be fine.
  * 
  * @author Philip DeCamp
@@ -380,7 +380,7 @@ public class PublicList<T> extends AbstractCollection<T> implements List<T> {
         
         public void remove() {
             if( mPrev < 0 ) {
-                throw new IllegalStateException( "No call to next() or present()." );
+                throw new IllegalStateException( "No call to mNext() or present()." );
             }
             PublicList.this.remove( mPrev );
             if( mPrev < mOffset ) {
@@ -393,7 +393,7 @@ public class PublicList<T> extends AbstractCollection<T> implements List<T> {
 
         public void set( T item ) {
             if( mPrev < 0 ) {
-                throw new IllegalStateException( "No prior call to next() or previous()." );
+                throw new IllegalStateException( "No prior call to mNext() or previous()." );
             }
             PublicList.this.set( mPrev, item );
         }

@@ -23,12 +23,12 @@ import java.util.*;
  * <p>
  * With the default IntervalComparator (LongIntervalMap.LONG_PAIR_COMP),
  * LongIntervalMap will store and retrieve zero-length (degenerate) intervals.
- * It merely treats them as if the max value was actually inifinitesimally greater
+ * It merely treats them as if the max mValue was actually inifinitesimally greater
  * than the min. EG: <br>
  * <tt>[3,3) intersects [2,4), [3,3) and [3,4) </tt> <br>
  * <tt>[3,3) does not intersect [2,3) <tt>
   *
- * @param <V> The value type to be associated with an interval
+ * @param <V> The mValue type to be associated with an interval
  * @author Philip DeCamp
  */
 public class LongIntervalMap<V> extends IntervalMap<long[], V> {
@@ -38,7 +38,7 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
      * Intervals are half-open, <tt>[ v0, v1 )</tt>, containing v0 but not v1. <br>
      * Intervals in which <tt>v0 > v1</tt> are not valid and produce undefined results. <br>
      * In the case of a degenerate interval in which <tt>v[0] == v[1]</tt>,
-     * the interval WILL contain the value: <tt>v0 in [v0, v1)</tt>. <br>
+     * the interval WILL contain the mValue: <tt>v0 in [v0, v1)</tt>. <br>
      * EG: <br>
      * <tt>[3,3) intersects [2,4), [3,3) and [3,4) </tt> <br>
      * <tt>[3,3) does not intersect [2,3) <tt>
@@ -99,49 +99,49 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
 
     /**
-     * @param min Min endpoint of key interval
-     * @param max Max endpiont of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpiont of mKey interval
      * @return true iff this map contains an interval with equivalent min and
-     * max values as <i>key</i>.
+     * max values as <i>mKey</i>.
      */
     public boolean containsKey( long min, long max ) {
         return super.containsKey( new long[]{ min, max } );
     }
 
     /**
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return true iff this map contains an interval that is a superset of
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsSupersetKey( long min, long max ) {
         return super.containsSupersetKey( new long[]{ min, max } );
     }
 
     /**
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return true iff the union of intervals in this map is a superset of
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsSupersetUnion( long min, long max ) {
         return super.containsSupersetUnion( new long[]{ min, max } );
     }
 
     /**
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return true iff this map contains an interval that intersects
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsIntersectionKey( long min, long max ) {
         return super.containsIntersectionKey( new long[]{ min, max } );
     }
 
     /**
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
-     * @return value mapped to first interval equivalent to <tt>key</tt>
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
+     * @return mValue mapped to first interval equivalent to <tt>mKey</tt>
      * contained in this map.
      */
     public V get( long min, long max ) {
@@ -149,9 +149,9 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
     }
 
     /**
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
-     * @return value mapped to first interval intersecting <tt>key</tt>
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
+     * @return mValue mapped to first interval intersecting <tt>mKey</tt>
      * contained in this map.
      */
     public V getIntersection( long min, long max ) {
@@ -159,9 +159,9 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
     }
 
     /**
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
-     * @return value mapped to first interval that is a superset of <tt>key</tt>
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
+     * @return mValue mapped to first interval that is a superset of <tt>mKey</tt>
      * contained in this map.
      */
     public V getSuperset( long min, long max ) {
@@ -169,9 +169,9 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
     }
 
     /**
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
-     * @return value mapped to first interval that is a subset of <tt>key</tt>
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
+     * @return mValue mapped to first interval that is a subset of <tt>mKey</tt>
      * contained in this map.
      */
     public V getSubset( long min, long max ) {
@@ -179,9 +179,9 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
     }
 
     /**
-     * @param min   Min endpoint of key interval
-     * @param max   Max endpoint of key interval
-     * @param value Arbitrary value
+     * @param min   Min endpoint of mKey interval
+     * @param max   Max endpoint of mKey interval
+     * @param value Arbitrary mValue
      * @return null (Existing mappings are never overwritten by calls to
      * <i>put()</i>)
      */
@@ -232,22 +232,22 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Removes the mapping for the first interval that is equivalent to
-     * <tt>key</tt>.
+     * <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
-     * @return the value that is removed by this call
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
+     * @return the mValue that is removed by this call
      */
     public V remove( long min, long max ) {
         return super.remove( new long[]{ min, max } );
     }
 
     /**
-     * Removes the mapping for the first interval that intersects <tt>key</tt>.
+     * Removes the mapping for the first interval that intersects <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
-     * @return the value that is removed by this call.
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
+     * @return the mValue that is removed by this call.
      */
     public V removeIntersection( long min, long max ) {
         return super.removeIntersection( new long[]{ min, max } );
@@ -255,11 +255,11 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Removes the mapping for the first interval that's a superset of
-     * <tt>key</tt>.
+     * <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
-     * @return the value that is removed by this call.
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
+     * @return the mValue that is removed by this call.
      */
     public V removeSuperset( long min, long max ) {
         return super.removeSuperset( new long[]{ min, max } );
@@ -267,11 +267,11 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Removes the mapping for the first interval that's a subset of
-     * <tt>key</tt>.
+     * <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
-     * @return the value that is removed by this call.
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
+     * @return the mValue that is removed by this call.
      */
     public V removeSubset( long min, long max ) {
         return super.removeSubset( new long[]{ min, max } );
@@ -280,10 +280,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * equivalent to <tt>key</tt>
+     * equivalent to <tt>mKey</tt>
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of intervals
      */
     public Set<long[]> equivKeySet( long min, long max ) {
@@ -292,10 +292,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * equivalent to <tt>key</tt> in descending order.
+     * equivalent to <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of intervals
      * @see #keySet()
      */
@@ -305,10 +305,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the intervals contained in this map that intersect
-     * <tt>key</tt>
+     * <tt>mKey</tt>
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of intervals
      * @see #keySet()
      */
@@ -318,10 +318,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the intervals contained in this map that intersect
-     * <tt>key</tt> in descending order.
+     * <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of intervals
      * @see #keySet()
      */
@@ -331,10 +331,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * supersets of <tt>key</tt>
+     * supersets of <tt>mKey</tt>
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of intervals
      * @see #keySet()
      */
@@ -344,10 +344,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * supersets of <tt>key</tt> in descending order.
+     * supersets of <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of intervals
      * @see #keySet()
      */
@@ -357,10 +357,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * subsets of <tt>key</tt>
+     * subsets of <tt>mKey</tt>
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of intervals
      * @see #keySet()
      */
@@ -370,10 +370,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the intervals contained in this map that are
-     * subsets of <tt>key</tt> in descending order.
+     * subsets of <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of intervals
      * @see #keySet()
      */
@@ -384,10 +384,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals
-     * equivalent to <tt>key</tt>.
+     * equivalent to <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a collection view of values
      * @see #values()
      */
@@ -397,10 +397,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals
-     * equivalent to <tt>key</tt> in descending order.
+     * equivalent to <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a collection view of values
      * @see #values()
      */
@@ -410,10 +410,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * intersect <tt>key</tt>.
+     * intersect <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a collection view of values
      * @see #values()
      */
@@ -423,10 +423,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * intersect <tt>key</tt> in descending order.
+     * intersect <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a collection view of values
      * @see #values()
      */
@@ -436,10 +436,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * are supersets of <tt>key</tt>.
+     * are supersets of <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a collection view of values
      * @see #values()
      */
@@ -449,10 +449,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * are supersets of <tt>key</tt> in descending order.
+     * are supersets of <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a collection view of values
      * @see #values()
      */
@@ -462,10 +462,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * are subsets of <tt>key</tt>.
+     * are subsets of <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a collection view of values
      * @see #values()
      */
@@ -475,10 +475,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a collection view of the values that are mapped to intervals that
-     * are supersets of <tt>key</tt> in descending order.
+     * are supersets of <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a collection view of values
      * @see #values()
      */
@@ -489,10 +489,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the mappings that contain intervals equivalent to
-     * <tt>key</tt>.
+     * <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of values
      * @see #entrySet()
      */
@@ -502,10 +502,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the mappings that contain intervals equivalent to
-     * <tt>key</tt> in descending order.
+     * <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of values
      * @see #entrySet()
      */
@@ -515,10 +515,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that intersect
-     * <tt>key</tt>.
+     * <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of values
      * @see #entrySet()
      */
@@ -528,10 +528,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that intersect
-     * <tt>key</tt> in descending order.
+     * <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of values
      * @see #entrySet()
      */
@@ -541,10 +541,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that are
-     * supersets of <tt>key</tt>.
+     * supersets of <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of values
      * @see #entrySet()
      */
@@ -554,10 +554,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that are
-     * supersets of <tt>key</tt> in descending order.
+     * supersets of <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of values
      * @see #entrySet()
      */
@@ -567,10 +567,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that are
-     * subsets of <tt>key</tt>.
+     * subsets of <tt>mKey</tt>.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of values
      * @see #entrySet()
      */
@@ -580,10 +580,10 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
 
     /**
      * Returns a set view of the mappings that contain intervals that are
-     * subsets of <tt>key</tt> in descending order.
+     * subsets of <tt>mKey</tt> in descending order.
      *
-     * @param min Min endpoint of key interval
-     * @param max Max endpoint of key interval
+     * @param min Min endpoint of mKey interval
+     * @param max Max endpoint of mKey interval
      * @return a set view of values
      * @see #entrySet()
      */

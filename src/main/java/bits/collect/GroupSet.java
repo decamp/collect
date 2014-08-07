@@ -21,7 +21,7 @@ import java.util.*;
  * provided, by their natural ordering.  As in SortedSet, the comparison used 
  * should be consistent with equals.
  * <p>
- * Within the GroupSet, elements are ordered first by the value comparison, and
+ * Within the GroupSet, elements are ordered first by the mValue comparison, and
  * then by a group comparator (or, if no group comparator is provided, by the
  * natural ordering of the groups).  Because groups are both ordered and stored
  * in a hash table, it is very important that the group comparison is 
@@ -84,7 +84,7 @@ public class GroupSet<G,V> extends AbstractSet<V> {
 
     
     /**
-     * Equivalent to calling <tt>add(null, value)</tt>
+     * Equivalent to calling <tt>add(null, mValue)</tt>
      * 
      * @param value Value to add to set.
      * @return true iff collection is modified as a result.
@@ -95,9 +95,9 @@ public class GroupSet<G,V> extends AbstractSet<V> {
     }
     
     /**
-     * Adds a value to the set and to the group within the set.
+     * Adds a mValue to the set and to the group within the set.
      * 
-     * @param group Group into which value should be placed.
+     * @param group Group into which mValue should be placed.
      * @param value Value to add to set.
      * @return true iff collection is modified as a result.
      */
@@ -476,7 +476,7 @@ public class GroupSet<G,V> extends AbstractSet<V> {
     }
     
     /**
-     * Removes a value from the "null" group.
+     * Removes a mValue from the "null" group.
      * 
      * @param obj Value to remove from the collection.
      * @return true iff the collection is modified as a result.
@@ -487,9 +487,9 @@ public class GroupSet<G,V> extends AbstractSet<V> {
     }
     
     /**
-     * Removes a value from a given group.
+     * Removes a mValue from a given group.
      * 
-     * @param group Group from which value should be removed.
+     * @param group Group from which mValue should be removed.
      * @param obj Object to remove from group.
      * @return true iff the collection is modified as a result.
      */
@@ -696,7 +696,7 @@ public class GroupSet<G,V> extends AbstractSet<V> {
     /**
      * @param group Group to look in
      * @param obj Value to look for in provided group
-     * @return true iff provided value is a member of the provided group.
+     * @return true iff provided mValue is a member of the provided group.
      */
     public boolean contains(G group, Object obj) {
         return findNodeThatContains(group, obj) != null;
@@ -1358,7 +1358,7 @@ public class GroupSet<G,V> extends AbstractSet<V> {
     /*************************************************************
      * Fundamental Red-Black Tree Operations
      * 
-     * These operations do not look at the value portion of any
+     * These operations do not look at the mValue portion of any
      * node, and thus may be easily transferred to other classes.  These methods
      * only rely on two member variables: mRoot, mSize and mModCount.
      *************************************************************/

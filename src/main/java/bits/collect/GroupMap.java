@@ -12,17 +12,17 @@ import java.util.*;
  * elements.<br/>
  * 1. A red-black tree over all elements in the collection. <br/>
  * 2. A red-black tree over all elements within a given "group" in the collection. <br/>
- * 3. A hash table that provides a mapping between a key and each element. <br/>
+ * 3. A hash table that provides a mapping between a mKey and each element. <br/>
  * <p>
- * Groups may be null.  Keys and Values may not be null.  Only one value is 
- * allowed for a given key.  A group cannot contain a value multiple times,
- * however, a given value may be present in the collection multiple times under
+ * Groups may be null.  Keys and Values may not be null.  Only one mValue is
+ * allowed for a given mKey.  A group cannot contain a mValue multiple times,
+ * however, a given mValue may be present in the collection multiple times under
  * different keys and different groups.
  * <p>
- * Within the entire collection, values are ordered first by a value comparison,
+ * Within the entire collection, values are ordered first by a mValue comparison,
  * and second by a group comparison.  Within a group, elements are ordered only
- * by a value comparison.  The user has the option to provide a comparator for
- * the group comparison, value comparison, or both.  If a comparator is not
+ * by a mValue comparison.  The user has the option to provide a comparator for
+ * the group comparison, mValue comparison, or both.  If a comparator is not
  * provided, the natural ordering will be used.
  * <p>
  * In general, the interface to GroupMap is consistent with Map.  However,
@@ -59,7 +59,7 @@ public class GroupMap<G,K,V> extends AbstractMap<K,V> {
     private final float mGroupLoadFactor;
     private int mGroupThreshold;
     
-    //Values for key table.
+    //Values for mKey table.
     private Node<K,V>[] mKeyBuckets;
     private transient int mKeyCount = 0;
     private final float mKeyLoadFactor;
@@ -95,10 +95,10 @@ public class GroupMap<G,K,V> extends AbstractMap<K,V> {
     
     
     /**
-     * Gets a value mapped to the provided key.
+     * Gets a mValue mapped to the provided mKey.
      * 
      * @param key Key to lookup.
-     * @return value associated with key, or null if not present.
+     * @return mValue associated with mKey, or null if not present.
      */
     @Override
     public V get(Object key) {
@@ -110,11 +110,11 @@ public class GroupMap<G,K,V> extends AbstractMap<K,V> {
     }
 
     /**
-     * Equivalent to calling <tt>put(null, key, value)</tt>
+     * Equivalent to calling <tt>put(null, mKey, mValue)</tt>
      * 
      * @param key
      * @param value
-     * @return previous value mapped to the provided key
+     * @return previous mValue mapped to the provided mKey
      */
     @Override
     public V put(K key, V value) {
@@ -126,20 +126,20 @@ public class GroupMap<G,K,V> extends AbstractMap<K,V> {
     }
 
     /**
-     * Places value into a group within the collection and associates the value
-     * with the provided key.  If the provided key is already mapped to a value
-     * in the collection, that value will be removed from the collection 
-     * entirely and returned after the new value has been inserted.  
+     * Places mValue into a group within the collection and associates the mValue
+     * with the provided mKey.  If the provided mKey is already mapped to a mValue
+     * in the collection, that mValue will be removed from the collection
+     * entirely and returned after the new mValue has been inserted.
      * <p>
-     * Importantly, if a comparison-equivalent value is already present in the
-     * collection, it will be removed silently, even if it uses a different key.
+     * Importantly, if a comparison-equivalent mValue is already present in the
+     * collection, it will be removed silently, even if it uses a different mKey.
      * For that reason, both keys and comparison functions should be consistent
-     * with value equivalence.
+     * with mValue equivalence.
      * 
-     * @param group Group into which value will be placed.
-     * @param key Key to associate with value.
+     * @param group Group into which mValue will be placed.
+     * @param key Key to associate with mValue.
      * @param value Value to place into group/collection.
-     * @return value previously associated with the provided key
+     * @return mValue previously associated with the provided mKey
      */
     public V put(G group, K key, V value) {
         Node<K,V> ret = putKeyNode(group, key, value);
@@ -272,7 +272,7 @@ public class GroupMap<G,K,V> extends AbstractMap<K,V> {
     /**
      * @param group Group to look in
      * @param obj Value to look for in provided group
-     * @return true iff provided value is a member of the provided group.
+     * @return true iff provided mValue is a member of the provided group.
      */
     public boolean containsValue(G group, Object obj) {
         return findNodeThatContains(group, obj) != null;
@@ -814,7 +814,7 @@ public class GroupMap<G,K,V> extends AbstractMap<K,V> {
     /*************************************************************
      * Fundamental Red-Black Tree Operations
      * 
-     * These operations do not look at the value portion of any
+     * These operations do not look at the mValue portion of any
      * node, and thus may be easily transferred to other classes.  These methods
      * only rely on two member variables: mRoot, mSize and mModCount.
      *************************************************************/

@@ -14,7 +14,7 @@ import java.util.*;
  * elements that are equivalent, and will even store the same instance multiple
  * times.
  *
- * <p>Intervals are ordered first by minimum value, then maximum, then the order in
+ * <p>Intervals are ordered first by minimum mValue, then maximum, then the order in
  * which they're added to the map.
  *
  * <p>An interval tree works by keeping intervals sorted in ascending order by
@@ -25,9 +25,9 @@ import java.util.*;
  * and <a href="http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree"> augmented trees</a>
  *
  * <p>Bug: lastByMax() does not resolve ties in a defined way. That is,
- * if there are multiple intervals in the map with the same max value, IntervalMap makes
+ * if there are multiple intervals in the map with the same max mValue, IntervalMap makes
  * no guarantees about which will be returned.  This should eventually fixed to return
- * the LAST interval with the greatest max value.  This ambiguity extends to IntervalSet
+ * the LAST interval with the greatest max mValue.  This ambiguity extends to IntervalSet
  * and LongIntervalMap.
  *
  * @param <E> The element type.
@@ -59,7 +59,7 @@ public class IntervalSet<E> implements Set<E> {
      *
      * @param e element
      * @return true if set was modified by this call. Unless element is
-     * <tt>null</tt>, the return value will be <tt>true</tt>.
+     * <tt>null</tt>, the return mValue will be <tt>true</tt>.
      */
     public boolean add( E e ) {
         if( e == null ) {
@@ -163,7 +163,7 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * @param e An interval
      * @return true iff this Set contains an interval that intersects
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsIntersection( Object e ) {
         return mMap.containsIntersectionKey( e );
@@ -172,7 +172,7 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * @param e An interval
      * @return true iff this map contains an interval that is a subset of
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsSubset( Object e ) {
         return mMap.containsSubsetKey( e );
@@ -181,7 +181,7 @@ public class IntervalSet<E> implements Set<E> {
     /**
      * @param e An interval
      * @return true iff this map contains an interval that is a superset of
-     * <i>key</i>.
+     * <i>mKey</i>.
      */
     public boolean containsSuperset( Object e ) {
         return mMap.containsSupersetKey( e );
@@ -223,10 +223,10 @@ public class IntervalSet<E> implements Set<E> {
 
     /**
      * Same as remove(e), except that the element that gets removed is returned
-     * instead of a boolean value.
+     * instead of a boolean mValue.
      *
      * @param e interval
-     * @return the value that is removed by this call
+     * @return the mValue that is removed by this call
      */
     public E removeEquiv( Object e ) {
         return mMap.remove( e );
@@ -245,7 +245,7 @@ public class IntervalSet<E> implements Set<E> {
      * Removes the mapping for the first interval that's a superset of <b>e</b>.
      *
      * @param e interval
-     * @return the value that is removed by this call.
+     * @return the mValue that is removed by this call.
      */
     public E removeSuperset( Object e ) {
         return mMap.removeSuperset( e );
@@ -255,7 +255,7 @@ public class IntervalSet<E> implements Set<E> {
      * Removes the mapping for the first interval that's a subset of <b>e</b>.
      *
      * @param e An interval
-     * @return the value that is removed by this call.
+     * @return the mValue that is removed by this call.
      */
     public E removeSubset( Object e ) {
         return mMap.removeSubset( e );
@@ -326,7 +326,7 @@ public class IntervalSet<E> implements Set<E> {
     }
 
     /**
-     * @return the element with the greastest max interval value.
+     * @return the element with the greastest max interval mValue.
      */
     public E lastByMax() {
         return mMap.lastKeyByMax();

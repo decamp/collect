@@ -172,7 +172,7 @@ public class ConcurrentBag<T> extends AbstractCollection<T> {
                 mHead = tail;
                 return;
             }
-            // Add next element of head to tail list.
+            // Add mNext element of head to tail list.
             tail = new Node<T>( head.mItem, tail );
             head = head.mNext;
         }
