@@ -236,7 +236,7 @@ public class GroupMapTest {
         Iterator iter2 = map.values().iterator();
         
         while(iter1.hasNext()) {
-            assertEquals("Entry mismatch", iter1.next(), iter2.next());
+            assertEquals("Node mismatch", iter1.next(), iter2.next());
         }
     }
     
@@ -486,7 +486,7 @@ public class GroupMapTest {
             Map.Entry<Long, Integer> entry = entryIter.next();
             
             assertEquals("Value iter mismatch", v1, v2);
-            assertEquals("Entry iter mismatch", v1, entry.getValue());
+            assertEquals("Node iter mismatch", v1, entry.getValue());
             assertEquals("Key iter mismatch", key, entry.getKey());
             
             assertEquals("Get by mKey error", map.get(key), v1);

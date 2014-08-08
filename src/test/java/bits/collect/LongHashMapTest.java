@@ -1,22 +1,53 @@
-/* 
- * Copyright (c) 2012, Massachusetts Institute of Technology
- * Released under the BSD 2-Clause License
- * http://opensource.org/licenses/BSD-2-Clause 
- */
 package bits.collect;
 
 import org.junit.Test;
+
 import java.util.*;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 /**
  * @author Philip DeCamp
  */
-@SuppressWarnings( "rawtypes" )
-public class LongHashMapTest {
+public class LongHashMapTest extends LongMapInterfaceTest {
 
-    @Test
+    public LongHashMapTest() {
+        super( true, true, true, true, true );
+    }
+
+
+    @Override
+    protected LongMap makeEmptyMap() throws UnsupportedOperationException {
+        return new LongHashMap();
+    }
+
+    @Override
+    protected LongMap makePopulatedMap() throws UnsupportedOperationException {
+        Random rand = new Random( 100 );
+        LongMap<Long> ret = new LongHashMap<Long>();
+
+        for( int i = 0; i < 1000; i++ ) {
+            long k = rand.nextInt( 500 );
+            long v = rand.nextInt( 500 );
+            ret.put( k, v );
+        }
+
+        return ret;
+    }
+
+    @Override
+    protected long getKeyNotInPopulatedMap() throws UnsupportedOperationException {
+        return Long.MIN_VALUE;
+    }
+
+    @Override
+    protected Object getValueNotInPopulatedMap() throws UnsupportedOperationException {
+        return Long.MIN_VALUE;
+    }
+
+
     public void testAddRemoveClear() {
         Map<Long, Double> normMap   = new HashMap<Long, Double>();
         LongHashMap<Double> longMap = new LongHashMap<Double>();
@@ -45,7 +76,6 @@ public class LongHashMapTest {
     }
 
 
-    @Test
     public void testKeyIterRemove() {
         Map<Long, Double> normMap   = new HashMap<Long, Double>();
         LongHashMap<Double> longMap = new LongHashMap<Double>();
@@ -60,7 +90,7 @@ public class LongHashMapTest {
 
 
         // Check remove on iterator.
-        LongIterator iter = longMap.keyIterator();
+        LongIterator iter = longMap.keySet().iterator();
         while( iter.hasNext() ) {
             long key = iter.next();
             if( rand.nextBoolean() ) {
@@ -72,7 +102,6 @@ public class LongHashMapTest {
     }
 
 
-    @Test
     public void testValueIterRemove() {
         Map<Long, Double> normMap   = new HashMap<Long, Double>();
         LongHashMap<Double> longMap = new LongHashMap<Double>();
@@ -86,7 +115,7 @@ public class LongHashMapTest {
         }
 
         // Check remove on iterator.
-        Iterator<Double> iter = longMap.valueIterator();
+        Iterator<Double> iter = longMap.values().iterator();
         while( iter.hasNext() ) {
             Double value = iter.next();
             Long key     = (long)( value.doubleValue() + 0.5 );
@@ -100,7 +129,6 @@ public class LongHashMapTest {
     }
 
 
-    @Test
     public void testEntryIterRemove() {
         Map<Long, Double> normMap   = new HashMap<Long, Double>();
         LongHashMap<Double> longMap = new LongHashMap<Double>();
@@ -114,9 +142,9 @@ public class LongHashMapTest {
         }
 
         // Check remove on iterator.
-        Iterator<LongHashMap.Entry<Double>> iter = longMap.entryIterator();
+        Iterator<LongMap.Entry<Double>> iter = longMap.entrySet().iterator();
         while( iter.hasNext() ) {
-            LongHashMap.Entry<Double> e = iter.next();
+            LongMap.Entry<Double> e = iter.next();
             if( rand.nextBoolean() ) {
                 iter.remove();
                 normMap.remove( e.getKey() );
@@ -127,7 +155,6 @@ public class LongHashMapTest {
     }
 
 
-    @Test
     public void testContainsKeyValue() {
         LongHashMap<Double> longMap = new LongHashMap<Double>();
         Random rand = new Random( 0 );
@@ -139,9 +166,9 @@ public class LongHashMapTest {
         }
 
         // Check remove on iterator.
-        Iterator<LongHashMap.Entry<Double>> iter = longMap.entryIterator();
+        Iterator<LongMap.Entry<Double>> iter = longMap.entrySet().iterator();
         while( iter.hasNext() ) {
-            LongHashMap.Entry<Double> e = iter.next();
+            LongMap.Entry<Double> e = iter.next();
             assertTrue( "Failed containsKey()",   longMap.containsKey( e.getKey() ) );
             assertTrue( "Failed containsValue()", longMap.containsValue( e.getValue() ) );
 
@@ -157,7 +184,7 @@ public class LongHashMapTest {
 
     private static boolean compare( Map<Long,Double> x, LongHashMap y ) {
         assertTrue( "Size mismatch", x.size() == y.size() );
-        
+
         for( Long k : x.keySet() ) {
             assertTrue( "Get mismatch", x.get( k ) == y.get( k ) );
         }
@@ -167,13 +194,14 @@ public class LongHashMapTest {
             assertTrue( "Value mismatch", y.containsValue( entry.getValue() ) );
         }
 
-        LongIterator iter = y.keyIterator();
+        LongIterator iter = y.keySet().iterator();
         while( iter.hasNext() ) {
             long key = iter.next();
             assertTrue( "Keyset masmatch", y.containsKey( key ) && x.containsKey( key ) );
         }
-        
+
         return true;
     }
+
 
 }

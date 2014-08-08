@@ -69,7 +69,7 @@ public class WeakValueHashMapTest {
         }
         
         for( Object entry : x.entrySet() ) {
-            assertTrue( "Entry mismatch", y.entrySet().contains( entry ) );
+            assertTrue( "Node mismatch", y.entrySet().contains( entry ) );
             assertTrue( "Key mismatch", y.containsKey( ((Map.Entry)entry).getKey() ) );
             assertTrue( "Value mismatch", y.containsValue( ((Map.Entry)entry).getValue() ) );
         }

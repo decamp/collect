@@ -276,7 +276,7 @@ public class GroupSetTest {
         Iterator<?> iter2 = set.iterator();
 
         while( iter1.hasNext() ) {
-            assertEquals( "Entry mismatch", iter1.next(), iter2.next() );
+            assertEquals( "Node mismatch", iter1.next(), iter2.next() );
         }
     }
 

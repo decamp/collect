@@ -9,10 +9,10 @@ import java.util.*;
 
 /**
  * HashMap that uses primitive longs as keys.
- * <p>
- * @author Philip DeCamp
+ *
+ * @see java.util.HashMap
  */
-public class LongHashMap<V> {
+public class LongHashMap<V> implements LongMap<V> {
 
     private static final int   DEFAULT_INITIAL_CAPACITY = 16;
     private static final float DEFAULT_LOAD_FACTOR      = 0.75f;
@@ -20,42 +20,27 @@ public class LongHashMap<V> {
 
     private final float mLoadFactor;
 
-    private Entry<V>[] mBuckets;
-    private int        mSize;
-    private int        mResizeThresh;
+    private Node<V>[] mBuckets;
+    private int       mSize;
+    private int       mResizeThresh;
 
-    private transient int mModCount = 0;
+    private transient volatile int mModCount = 0;
 
 
-    /**
-     * Constructs a new empty {@code HashMap} instance.
-     *
-     * @since Android 1.0
-     */
+    private transient volatile EntrySet mEntrySet = null;
+    private transient volatile KeySet   mKeySet   = null;
+    private transient volatile Values   mValues   = null;
+
+
     public LongHashMap() {
         this( DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR );
     }
 
-    /**
-     * Constructs a new {@code HashMap} instance with the specified capacity.
-     *
-     * @param initialCapacity the initial capacity of this hash map.
-     * @throws IllegalArgumentException when the capacity is less than zero.
-     * @since Android 1.0
-     */
+
     public LongHashMap( int initialCapacity ) {
         this( initialCapacity, DEFAULT_LOAD_FACTOR );
     }
 
-    /**
-     * Constructs a new {@code HashMap} instance with the specified capacity and
-     * load factor.
-     *
-     * @param initialCapacity the initial capacity of this hash map.
-     * @param loadFactor      the initial load factor.
-     * @throws IllegalArgumentException when the capacity is less than zero or the load factor is
-     *                                  less or equal to zero.
-     */
     @SuppressWarnings( "unchecked" )
     public LongHashMap( int initialCapacity, float loadFactor ) {
         if( initialCapacity < 0 ) {
@@ -67,139 +52,37 @@ public class LongHashMap<V> {
         }
 
         mLoadFactor = loadFactor;
-        mBuckets    = new Entry[ceilPot( Math.min( initialCapacity, MAXIMUM_CAPACITY ) )];
+        mBuckets    = new Node[ ceilPot( Math.min( initialCapacity, MAXIMUM_CAPACITY ) ) ];
         mSize       = 0;
+
         computeResizeThresh();
     }
 
 
-    /**
-     * Returns the mValue of the mapping with the specified mKey.
-     *
-     * @param key the key.
-     * @return the value of the mapping with the specified key, or {@code null}
-     * if no mapping for the specified key is found.
-     */
-    public V get( long key ) {
-        Entry<V> m = findEntry( key, bucketIndex( key ) );
-        return m != null ? m.mValue : null;
-    }
 
-    /**
-     * Maps the specified mKey to the specified mValue.
-     *
-     * @param key   the key.
-     * @param value the value.
-     * @return the  value of any previous mapping with the specified key or
-     * {@code null} if there was no such mapping.
-     */
-    public V put( long key, V value ) {
-        int index = bucketIndex( key );
-        Entry<V> entry = findEntry( key, index );
-        mModCount++;
-
-        if( entry == null ) {
-            if( ++mSize > mResizeThresh ) {
-                resize( mBuckets.length * 2 );
-                index = bucketIndex( key );
-            }
-            entry = new Entry<V>( key, value, mBuckets[index] );
-            mBuckets[index] = entry;
-            return null;
-
-        } else {
-            V prev = entry.mValue;
-            entry.mValue = value;
-            return prev;
-        }
-    }
-
-
-    public <T extends V> void putAll( LongHashMap<T> map ) {
-        Iterator<Entry<T>> iter = map.entryIterator();
-        while( iter.hasNext() ) {
-            Entry<T> e = iter.next();
-            put( e.getKey(), e.getValue() );
-        }
-    }
-
-    /**
-     * Removes the mapping with the specified mKey from this map.
-     *
-     * @param key the mKey of the mapping to remove.
-     * @return the mValue of the removed mapping or {@code null} if no mapping
-     * for the specified mKey was found.
-     * @since Android 1.0
-     */
-    public V remove( long key ) {
-        Entry<V> entry = removeEntry( key );
-        return entry == null ? null : entry.mValue;
-    }
-
-    /**
-     * Removes all mappings from this hash map, leaving it empty.
-     *
-     * @see #isEmpty
-     * @see #size
-     * @since Android 1.0
-     */
     public void clear() {
-        if( mSize > 0 ) {
-            mSize = 0;
-            Arrays.fill( mBuckets, null );
-            mModCount++;
+        if( mSize == 0 ) {
+            return;
         }
+
+        mModCount++;
+        mSize = 0;
+        Arrays.fill( mBuckets, null );
     }
 
-    /**
-     * Returns the number of elements in this map.
-     *
-     * @return the number of elements in this map.
-     * @since Android 1.0
-     */
-    public int size() {
-        return mSize;
-    }
 
-    /**
-     * Returns whether this map is empty.
-     *
-     * @return {@code true} if this map has no elements, {@code false}
-     * otherwise.
-     * @see #size()
-     * @since Android 1.0
-     */
-    public boolean isEmpty() {
-        return mSize == 0;
-    }
-
-    /**
-     * Returns whether this map contains the specified mKey.
-     *
-     * @param key the mKey to search for.
-     * @return {@code true} if this map contains the specified mKey,
-     * {@code false} otherwise.
-     * @since Android 1.0
-     */
     public boolean containsKey( long key ) {
-        return findEntry( key, bucketIndex( key ) ) != null;
+        return getNode( key, bucketIndex( key ) ) != null;
     }
 
-    /**
-     * Returns whether this map contains the specified mValue.
-     *
-     * @param value the mValue to search for.
-     * @return {@code true} if this map contains the specified mValue,
-     * {@code false} otherwise.
-     * @since Android 1.0
-     */
+
     public boolean containsValue( Object value ) {
         final int num = mBuckets.length;
         if( value != null ) {
             for( int i = 0; i < num; i++ ) {
-                Entry<V> entry = mBuckets[i];
+                Node<V> entry = mBuckets[i];
                 while( entry != null ) {
-                    if( value == entry.mValue || value.equals( entry.mValue ) ) {
+                    if( value.equals( entry.mValue ) ) {
                         return true;
                     }
                     entry = entry.mNext;
@@ -207,7 +90,7 @@ public class LongHashMap<V> {
             }
         } else {
             for( int i = 0; i < num; i++ ) {
-                Entry<V> entry = mBuckets[i];
+                Node<V> entry = mBuckets[i];
                 while( entry != null ) {
                     if( entry.mValue == null ) {
                         return true;
@@ -219,26 +102,147 @@ public class LongHashMap<V> {
         return false;
     }
 
-    /**
-     * @return Iterator over keys in map
-     */
-    public LongIterator keyIterator() {
-        return new KeyIter();
+
+    public Set<Entry<V>> entrySet() {
+        EntrySet ret = mEntrySet;
+        return ret != null ? ret : ( mEntrySet = new EntrySet() );
     }
 
-    /**
-     * @return Iterator over values in map
-     */
-    public Iterator<V> valueIterator() {
-        return new ValueIter();
+
+    public V get( long key ) {
+        Node<V> m = getNode( key, bucketIndex( key ) );
+        return m != null ? m.mValue : null;
     }
 
-    /**
-     * @return Iterator over entries in map
-     */
-    public Iterator<Entry<V>> entryIterator() {
-        return new EntryIter();
+
+    public boolean isEmpty() {
+        return mSize == 0;
     }
+
+
+    public LongSet keySet() {
+        KeySet ret = mKeySet;
+        return ret != null ? ret : ( mKeySet = new KeySet() );
+    }
+
+
+    public V put( long key, V value ) {
+        int index = bucketIndex( key );
+        Node<V> node = getNode( key, index );
+        mModCount++;
+
+        if( node == null ) {
+            if( ++mSize > mResizeThresh ) {
+                resize( mBuckets.length * 2 );
+                index = bucketIndex( key );
+            }
+            node = new Node<V>( key, value, mBuckets[index] );
+            mBuckets[index] = node;
+            return null;
+
+        } else {
+            V prev = node.mValue;
+            node.mValue = value;
+            return prev;
+        }
+    }
+
+    @SuppressWarnings( { "unchecked", "rawtypes" } )
+    public void putAll( LongMap<? extends V> m ) {
+        for( Iterator iter = (Iterator)m.entrySet().iterator(); iter.hasNext(); ) {
+            Entry e = (Entry)iter.next();
+            put( e.getKey(), (V)e.getValue() );
+        }
+    }
+
+
+    public V remove( long key ) {
+        Node<V> node = removeNode( key );
+        return node == null ? null : node.mValue;
+    }
+
+
+    public int size() {
+        return mSize;
+    }
+
+
+    public Collection<V> values() {
+        Values ret = mValues;
+        return ret != null ? ret : ( mValues = new Values() );
+    }
+
+    @Override
+    @SuppressWarnings( "unchecked" )
+    public boolean equals( Object o ) {
+        if( o == this ) {
+            return true;
+        }
+        if( !( o instanceof LongMap ) ) {
+            return false;
+        }
+
+        LongMap<V> m = (LongMap<V>)o;
+        if( m.size() != size() ) {
+            return false;
+        }
+
+        try {
+            for( Entry<V> e: entrySet() ) {
+                long key = e.getKey();
+                V value  = e.getValue();
+                if( value == null ) {
+                    if( !( m.get( key ) == null && m.containsKey( key ) ) ) {
+                        return false;
+                    }
+                } else {
+                    if( !value.equals( m.get( key ) ) ) {
+                        return false;
+                    }
+                }
+            }
+        } catch( ClassCastException unused ) {
+            return false;
+        } catch( NullPointerException unused ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int h = 0;
+        for( Entry<V> e: entrySet() ) {
+            h += e.hashCode();
+        }
+        return h;
+    }
+
+    @Override
+    public String toString() {
+        Iterator<Entry<V>> i = entrySet().iterator();
+        if( !i.hasNext() ) {
+            return "{}";
+        }
+
+        StringBuilder s = new StringBuilder();
+        s.append( '{' );
+        while( true ) {
+            Entry<V> e = i.next();
+            V value = e.getValue();
+            s.append( e.getKey() );
+            s.append( '=' );
+            s.append( value == this ? "(this Map)" : value );
+            if( !i.hasNext() ) {
+                s.append( '}' );
+                return s.toString();
+            }
+            s.append( ", " );
+        }
+    }
+
+
 
 
 
@@ -247,8 +251,8 @@ public class LongHashMap<V> {
     }
 
 
-    private Entry<V> findEntry( long key, int index ) {
-        Entry<V> m = mBuckets[index];
+    private Node<V> getNode( long key, int index ) {
+        Node<V> m = mBuckets[index];
         while( m != null ) {
             if( key == m.mKey ) {
                 return m;
@@ -258,38 +262,11 @@ public class LongHashMap<V> {
         return null;
     }
 
-    @SuppressWarnings( "unchecked" )
-    private void resize( int newCapacity ) {
-        Entry<V>[] oldBuckets = mBuckets;
-        int oldCap = oldBuckets.length;
-        if( oldCap >= MAXIMUM_CAPACITY ) {
-            mResizeThresh = Integer.MAX_VALUE;
-            return;
-        }
 
-        Entry<V>[] newBuckets = mBuckets = new Entry[newCapacity];
-
-        for( int i = 0; i < oldBuckets.length; i++ ) {
-            Entry<V> entry = oldBuckets[i];
-            while( entry != null ) {
-                Entry<V> next = entry.mNext;
-
-                int idx = bucketIndex( entry.mKey );
-                entry.mNext = newBuckets[idx];
-                newBuckets[idx] = entry;
-
-                entry = next;
-            }
-        }
-
-        computeResizeThresh();
-    }
-
-
-    Entry<V> removeEntry( long key ) {
+    private Node<V> removeNode( long key ) {
         int index      = bucketIndex( key );
-        Entry<V> entry = mBuckets[index];
-        Entry<V> last  = null;
+        Node<V> entry = mBuckets[index];
+        Node<V> last  = null;
 
         while( entry != null && key != entry.mKey ) {
             last  = entry;
@@ -310,27 +287,58 @@ public class LongHashMap<V> {
         return entry;
     }
 
-//
-//    void removeEntry( Entry<V> entry ) {
-//        final int num = mBuckets.length;
-//        for( int i = 0; i < num; i++ ) {
-//            Entry<V> p = null;
-//            Entry<V> e = mBuckets[i];
-//            while( e != null ) {
-//                if( e == entry ) {
-//                    if( p == null ) {
-//                        mBuckets[i] = e.mNext;
-//                    } else {
-//                        p.mNext = e.mNext;
-//                    }
-//                    mModCount++;
-//                    mSize--;
-//                    return;
-//                }
-//            }
-//        }
-//    }
-//
+
+    private Node<V> removeEntry( Entry<V> entry ) {
+        final int num = mBuckets.length;
+        for( int i = 0; i < num; i++ ) {
+            Node<V> p = null;
+            Node<V> e = mBuckets[i];
+            while( e != null ) {
+                if( entry.equals( e ) ) {
+                    if( p == null ) {
+                        mBuckets[i] = e.mNext;
+                    } else {
+                        p.mNext = e.mNext;
+                    }
+                    mModCount++;
+                    mSize--;
+                    return e;
+                }
+                p = e;
+                e = e.mNext;
+            }
+        }
+
+        return null;
+    }
+
+    @SuppressWarnings( "unchecked" )
+    private void resize( int newCapacity ) {
+        Node<V>[] oldBuckets = mBuckets;
+        int oldCap = oldBuckets.length;
+        if( oldCap >= MAXIMUM_CAPACITY ) {
+            mResizeThresh = Integer.MAX_VALUE;
+            return;
+        }
+
+        Node<V>[] newBuckets = mBuckets = new Node[newCapacity];
+
+        for( int i = 0; i < oldBuckets.length; i++ ) {
+            Node<V> entry = oldBuckets[i];
+            while( entry != null ) {
+                Node<V> next = entry.mNext;
+
+                int idx = bucketIndex( entry.mKey );
+                entry.mNext = newBuckets[idx];
+                newBuckets[idx] = entry;
+
+                entry = next;
+            }
+        }
+
+        computeResizeThresh();
+    }
+
 
     private void computeResizeThresh() {
         mResizeThresh = (int)( mBuckets.length * mLoadFactor );
@@ -341,28 +349,25 @@ public class LongHashMap<V> {
         if( --val <= 0 ) {
             return 1;
         }
-        val = (val >> 1) | val;
-        val = (val >> 2) | val;
-        val = (val >> 4) | val;
-        val = (val >> 8) | val;
+        val = (val >>  1) | val;
+        val = (val >>  2) | val;
+        val = (val >>  4) | val;
+        val = (val >>  8) | val;
         val = (val >> 16) | val;
         return val + 1;
     }
 
 
 
-    public static final class Entry<V> {
+    private static final class Node<V> implements Entry<V> {
 
-        long     mKey;
-        V        mValue;
-        Entry<V> mNext;
+        final long mKey;
 
-//        Entry( long theKey ) {
-//            this.mKey = theKey;
-//            this.mValue = null;
-//        }
+        V       mValue;
+        Node<V> mNext;
 
-        Entry( long key, V value, Entry<V> next ) {
+
+        Node( long key, V value, Node<V> next ) {
             mKey   = key;
             mValue = value;
             mNext  = next;
@@ -373,10 +378,17 @@ public class LongHashMap<V> {
             return mKey;
         }
 
+
         public V getValue() {
             return mValue;
         }
 
+
+        public V setValue( V v ) {
+            V ret  = mValue;
+            mValue = v;
+            return ret;
+        }
 
         @Override
         public int hashCode() {
@@ -388,12 +400,17 @@ public class LongHashMap<V> {
             if( this == object ) {
                 return true;
             }
-            if( object instanceof Entry ) {
-                Entry<?> entry = (Entry)object;
-                return (mKey == entry.mKey) &&
-                       (mValue == entry.mValue || mValue != null && mValue.equals( entry.mValue ));
+
+            if( ! (object instanceof Entry ) ) {
+                return false;
             }
-            return false;
+
+            Entry entry = (Entry)object;
+            if( mKey != entry.getKey() ) {
+                return false;
+            }
+            Object val = entry.getValue();
+            return mValue == val || mValue != null && mValue.equals( val );
         }
 
         @Override
@@ -404,17 +421,18 @@ public class LongHashMap<V> {
     }
 
 
+
     private abstract class AbstractIter {
 
         private int mIterModCount = mModCount;
 
-        private int      mBucketIndex = 0;
-        private Entry<V> mPrev        = null;
-        private Entry<V> mNext;
+        private int     mBucketIndex = 0;
+        private Node<V> mPrev        = null;
+        private Node<V> mNext;
 
 
         protected AbstractIter() {
-            Entry<V> next = null;
+            Node<V> next = null;
             while( mBucketIndex < mBuckets.length ) {
                 next = mBuckets[mBucketIndex++];
                 if( next != null ) {
@@ -438,13 +456,13 @@ public class LongHashMap<V> {
                 throw new ConcurrentModificationException();
             }
 
-            removeEntry( mPrev.mKey );
+            removeNode( mPrev.mKey );
             mPrev = null;
             mIterModCount = mModCount;
         }
 
 
-        final Entry<V> nextEntry() {
+        final Node<V> nextEntry() {
             if( mNext == null ) {
                 throw new NoSuchElementException();
             }
@@ -466,26 +484,115 @@ public class LongHashMap<V> {
     }
 
 
-    private class KeyIter extends AbstractIter implements LongIterator {
+
+    private final class KeyIter extends AbstractIter implements LongIterator {
         public long next() {
             return nextEntry().mKey;
         }
     }
 
 
-    private class ValueIter extends AbstractIter implements Iterator<V> {
+
+    private final class ValueIter extends AbstractIter implements Iterator<V> {
         public V next() {
             return nextEntry().mValue;
         }
     }
 
 
-    private class EntryIter extends AbstractIter implements Iterator<LongHashMap.Entry<V>> {
-        public Entry<V> next() {
+
+    private final class EntryIter extends AbstractIter implements Iterator<Entry<V>> {
+        public Node<V> next() {
             return nextEntry();
         }
     }
 
+
+
+    private final class KeySet extends AbstractLongSet {
+
+        public void clear() {
+            LongHashMap.this.clear();
+        }
+
+        public boolean contains( long v ) {
+            return containsKey( v );
+        }
+
+        public LongIterator iterator() {
+            return new KeyIter();
+        }
+
+        public boolean remove( long v ) {
+            return LongHashMap.this.remove( v ) != null;
+        }
+
+        public int size() {
+            return mSize;
+        }
+    }
+
+
+
+    private final class Values extends AbstractCollection<V> {
+
+
+        public void clear() {
+            LongHashMap.this.clear();
+        }
+
+
+        public boolean contains( Object obj ) {
+            return containsValue( obj );
+        }
+
+
+        public Iterator<V> iterator() {
+            return new ValueIter();
+        }
+
+
+        public int size() {
+            return mSize;
+        }
+
+    }
+
+
+
+    private final class EntrySet extends AbstractSet<Entry<V>> {
+
+        public void clear() {
+            LongHashMap.this.clear();
+        }
+
+        @SuppressWarnings( "unchecked" )
+        public boolean contains( Object obj ) {
+            if( !(obj instanceof Entry) ) {
+                return false;
+            }
+
+            Entry e = (Entry)obj;
+            long key = e.getKey();
+            Entry<V> candidate = getNode( e.getKey(), bucketIndex( key ) );
+            return candidate != null && candidate.equals( e );
+        }
+
+        @SuppressWarnings( "unchecked" )
+        public boolean remove( Object o ) {
+            return removeEntry( (Entry<V>)o ) != null;
+        }
+
+
+        public Iterator<Entry<V>> iterator() {
+            return new EntryIter();
+        }
+
+
+        public int size() {
+            return mSize;
+        }
+    }
 
 }
 

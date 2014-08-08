@@ -2518,9 +2518,9 @@ public class IntervalMap<K, V> implements Map<K, V> {
         }
 
         @Override
-        public V setValue( Object value ) {
+        public V setValue( V value ) {
             V ret = mValue;
-            mValue = (V)value;
+            mValue = value;
             return ret;
         }
 
