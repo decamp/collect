@@ -92,8 +92,7 @@ public abstract class LongMapInterfaceTest<V> extends TestCase {
      * @throws UnsupportedOperationException if it's not possible to make an
      *                                       empty instance of the class under test.
      */
-    protected abstract LongMap<V> makeEmptyMap()
-            throws UnsupportedOperationException;
+    protected abstract LongMap<V> makeEmptyMap() throws UnsupportedOperationException;
 
     /**
      * Creates a new, non-empty instance of the class under test.
@@ -102,8 +101,7 @@ public abstract class LongMapInterfaceTest<V> extends TestCase {
      * @throws UnsupportedOperationException if it's not possible to make a
      *                                       non-empty instance of the class under test.
      */
-    protected abstract LongMap<V> makePopulatedMap()
-            throws UnsupportedOperationException;
+    protected abstract LongMap<V> makePopulatedMap() throws UnsupportedOperationException;
 
     /**
      * Creates a new key that is not expected to be found
