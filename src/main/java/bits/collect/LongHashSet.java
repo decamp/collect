@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, Massachusetts Institute of Technology
+ * Copyright (c) 2014. Massachusetts Institute of Technology
  * Released under the BSD 2-Clause License
  * http://opensource.org/licenses/BSD-2-Clause
  */
@@ -112,9 +112,7 @@ public class LongHashSet extends AbstractLongSet implements LongSet {
         return new Iter();
     }
 
-
     @Override
-    @SuppressWarnings( "unchecked" )
     public boolean equals( Object o ) {
         if( o == this ) {
             return true;
