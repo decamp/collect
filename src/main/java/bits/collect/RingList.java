@@ -23,7 +23,8 @@ import java.util.*;
  * <p>
  * Not thread-safe.
  * 
- * @author Philip DeCamp  
+ * @author Philip DeCamp
+ * @deprecated in favor of {@link java.util.ArrayDeque}
  */
 @SuppressWarnings("unchecked")
 public class RingList<E> extends AbstractCollection<E> implements Queue<E>, List<E> {
