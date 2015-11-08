@@ -10,28 +10,31 @@ import java.util.*;
 
 /**
  * A balanced binary tree that maps intervals to values. Multiple overlapping or equivalent intervals
- * map be stored. Entries may be fetched based on interval intersection, superset, subset, and equivalence testing.
- * Null keys are not supported.
+ * map be stored. Entries may be queried primarily by four interval relations: intersection, superset, subset,
+ * and equivalence. IE, given a test interval, you can find all intersecting intervals in the collection, or all
+ * superset intervals in the collection, etc. )
  * <p>
- * Intervals are ordered first by minimum mValue, then maximum, then the order in
- * which they're added to the map.
+ * Intervals are ordered first by minimum value, then maximum, then the order in
+ * which they were added to the collection. Null keys/intervals are not supported.
  * <p>
- * An interval tree works by keeping intervals sorted in ascending order by
- * start_time, but each node also maintains the maximum end_time of all
- * intervals in the subtree rooted at the node. Therefore, it can quickly be
- * determined whether a search should proceed in a subtree or whether there is
- * no chance of intersection. Mostly based on CLRS (Introduction to Algorithms)
+ * An interval tree works by keeping intervals sorted in ascending order as described
+ * above, but each node maintains an additional field that provides a min and max
+ * bound on its whole subtree, which provides a method to prune subtrees for all queries.
+ * Overall prformance will depend on the data in the collection, but in many applications IntervalMap
+ * will have similar O(log) performance charactestics as standard binary trees.
+ * This technique is mostly based on CLRS (Introduction to Algorithms)
  * and <a href=http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree>
  * http://en.wikipedia.org/wiki/Interval_tree#Augmented_tree</a>
  * <p>
- * Although it is convention in mathematics that open and half-open sets that are
- * degenaret (have equivalent endpoints) do not contain the endpoint,
- * IntervalMap uses the opposing convention and treats degenerate sets as if they DO contain their endpoint:
+ * Although it is convention in mathematics that degenerate open or half-open sets are empty.
+ * The problem with this is that it's not very convenient for a collection. If the collection
+ * contains interval [1,1) and the user asks for all intervals that intersect [0,3), then [1,1)
+ * would not be returned because it doesn't intersect.
+  * IntervalMap uses the opposing convention and treats degenerate sets as if they DO contain their endpoint:
  * ( <tt>3 in [3,3)</tt>, and <tt>3 in (3,3)</tt> ).
- * The result of this is that IntervalMap can store degenerate intervals and will retrieve
- * degenerate intervals for all query types. Note well, however, that any custom-defined
- * IntervalComparators must handle degenerate intervals accordingly; as if the endpoints
- * are actually infinitesimally separated!
+ * As a result, IntervalMap can store and retrieve degenerate intervals for all query types.
+ * However, note well that any custom IntervalComparators must handle degenerate intervals
+ * accordingly; as if the endpoints are actually infinitesimally separated!
  *
  * <p>Issue: The IntervalMap lastEntryByMax() does not resolve ties in a defined way.
  * That is, if there are multiple intervals in the map with the same max mValue,
