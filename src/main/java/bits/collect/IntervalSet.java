@@ -277,8 +277,8 @@ public class IntervalSet<E> implements Set<E> {
      * <tt>e.equals(eM)</tt>, then this method will return the element
      * immediately before the first such elements.
      *
-     * @param e
-     * @return
+     * @param e Input element
+     * @return Lower element
      */
     public E lower( E e ) {
         return mMap.lowerKey( e );
@@ -290,8 +290,8 @@ public class IntervalSet<E> implements Set<E> {
      * <tt>e.equals(eM)</tt>, then this method will return the element
      * immediately after the last such elements.
      *
-     * @param e
-     * @return
+     * @param e Input element
+     * @return Higher element, or null.
      */
     public E higher( E e ) {
         return mMap.higherKey( e );
@@ -304,8 +304,8 @@ public class IntervalSet<E> implements Set<E> {
      * IntervalSet such that they not only have equivalent intervals, but also
      * <tt>e.equals(eM)</tt>, then the highest such element will be returned.
      *
-     * @param e
-     * @return
+     * @param e Input element
+     * @return Equivalent or lower element.
      */
     public E floor( E e ) {
         return mMap.floorKey( e );
@@ -318,8 +318,8 @@ public class IntervalSet<E> implements Set<E> {
      * that they not only have equivalent intervals, but also
      * <tt>e.equals(eM)</tt>, then the lowest such element will be returned.
      *
-     * @param e
-     * @return
+     * @param e Input element
+     * @return Equivalent or higher element.
      */
     public E ceiling( E e ) {
         return mMap.ceilingKey( e );

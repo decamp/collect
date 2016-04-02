@@ -5,6 +5,7 @@
  */
 package bits.collect;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.*;
@@ -24,7 +25,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testGet() {
+    @Test
+    public void testGet() {
         DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
         StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
@@ -50,7 +52,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testGetIntersecting() {
+    @Test
+    public void testGetIntersecting() {
         final RandomIter iter = new RandomIter( getSeed(), 0, 100 );
         final int testCount = 5000;
         final int subtestCount = 100;
@@ -85,7 +88,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testGetAllIntersecting() {
+    @Test
+    public void testGetAllIntersecting() {
         RandomIter iter = new RandomIter( getSeed(), 0, 1000 );
 
         final int testCount = 200;
@@ -111,7 +115,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testGetSuperset() {
+    @Test
+    public void testGetSuperset() {
         DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
         StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
         RandomIter iter = new RandomIter( getSeed(), 0, 1000 );
@@ -139,7 +144,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testGetSubset() {
+    @Test
+    public void testGetSubset() {
         DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
         StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
         RandomIter iter = new RandomIter( getSeed(), 0, 1000 );
@@ -171,7 +177,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testGetAllSupersets() {
+    @Test
+    public void testGetAllSupersets() {
 
         RandomIter iter = new RandomIter( getSeed(), 0, 1000 );
         final int testCount = 1000;
@@ -206,7 +213,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testGetAllSubsets() {
+    @Test
+    public void testGetAllSubsets() {
 
         RandomIter iter = new RandomIter( getSeed(), 0, 2000 );
         final int testCount = 2000;
@@ -241,7 +249,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testRemove() {
+    @Test
+    public void testRemove() {
         DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
         RandomIter iter = new RandomIter( getSeed(), 0, 10000 );
         Random rand = new Random( 1 );
@@ -287,7 +296,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testRemoveAll() {
+    @Test
+    public void testRemoveAll() {
         DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
         StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
@@ -312,7 +322,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testContainsSupersetUnion() {
+    @Test
+    public void testContainsSupersetUnion() {
         RandomIter iter = new RandomIter( getSeed(), 0, 50 );
         Random rand = new Random( 1 );
 
@@ -360,7 +371,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testViews() {
+    @Test
+    public void testViews() {
         RandomIter iter = new RandomIter( getSeed(), 0, 50 );
 
         for( int i = 0; i < 10; i++ ) {
@@ -386,7 +398,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testEquivView() {
+    @Test
+    public void testEquivView() {
         RandomIter iter = new RandomIter( getSeed(), 0, 100 );
 
         final int testCount = 2500;
@@ -420,7 +433,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testIntersectView() {
+    @Test
+    public void testIntersectView() {
         RandomIter iter = new RandomIter( getSeed(), 0, 100 );
 
         final int testCount = 2500;
@@ -454,7 +468,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testSupersetView() {
+    @Test
+    public void testSupersetView() {
         RandomIter iter = new RandomIter( getSeed(), 0, 100 );
 
         final int testCount = 2500;
@@ -488,7 +503,8 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testSubsetView() {
+    @Test
+    public void testSubsetView() {
         RandomIter iter = new RandomIter( getSeed(), 0, 100 );
 
         final int testCount = 2500;
@@ -522,7 +538,9 @@ public class DoubleIntervalMapTest {
     }
 
 
-    @Test public void testSpeed() {
+    @Ignore
+    @Test
+    public void testSpeed() {
         RandomIter iter = new RandomIter( getSeed(), 0, 10000 );
         final int testCount = 50;
         final int subtestCount = 100;

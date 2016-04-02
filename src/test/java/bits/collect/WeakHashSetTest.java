@@ -45,7 +45,7 @@ public class WeakHashSetTest {
         normSet.clear();
         normSet = null;
 
-        System.out.println( weakSet.size() );
+//        System.out.println( weakSet.size() );
         System.gc();
 
         try {
@@ -54,7 +54,7 @@ public class WeakHashSetTest {
 
         weakSet.add( 4 );
         ((WeakHashSet)weakSet).vacuum();
-        System.out.println( weakSet.size() );
+//        System.out.println( weakSet.size() );
 
     }
 

@@ -1,0 +1,102 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+group = 'com.github.decamp'
+buildDir = "$projectDir/build"
+description = 'Data Collections Lib'
+version = '0.0.0'
+
+repositories {
+    jcenter()
+}
+
+apply plugin: 'idea'
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+apply plugin: 'java'
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+dependencies {
+    testCompile 'junit:junit:4.11'
+}
+
+test {
+    workingDir = "$buildDir/resources/main"
+    jvmArgs = []
+    systemProperties = [:]
+    testLogging.showStandardStreams = true
+
+    onOutput { descriptor, event ->
+        logger.lifecycle( "Test: " + descriptor + " produced standard out/err: " + event.message )
+    }
+
+    beforeTest { descriptor ->
+        logger.lifecycle( "Running test: " + descriptor )
+    }
+}
+
+tasks.assemble.doFirst {
+    // Workaround for gradle bug.
+    new File( "$buildDir/resources/main" ).mkdirs();
+}
+
+tasks.withType( Javadoc ) {
+    options.addStringOption( 'Xdoclint:none', '-quiet' )
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from "$buildDir/docs/javadoc"
+}
+
+task sourcesJar( type: Jar ) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+apply plugin: 'maven'
+configurations {
+    deployerJars
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            description = project.description
+            licenses {
+                license {
+                    name 'BSD 2-Clause License'
+                    url 'http://opensource.org/licenses/BSD-2-Clause'
+                    distribution 'repo'
+                }
+            }
+            developers {
+                developer {
+                    id 'decamp'
+                    name 'Philip DeCamp'
+                    url 'http://de.camp'
+                    organization ''
+                    organizationUrl ''
+                    roles {
+                        role 'developer'
+                    }
+                }
+            }
+        }
+    }
+}

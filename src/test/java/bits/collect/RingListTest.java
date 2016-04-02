@@ -112,7 +112,7 @@ public class RingListTest {
     
     
     @Test
-    //@Ignore
+    @Ignore
     @SuppressWarnings( { "rawtypes", "unchecked" } )
     public void testSpeed() {
         final int trials = 100;

@@ -6,6 +6,8 @@
 
 package bits.collect;
 
+import org.junit.Test;
+
 import java.util.*;
 
 

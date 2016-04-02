@@ -9,16 +9,22 @@ SemiWeakHashSet, WeakHashSet, and WeakValueHashMap are collections that use weak
 GroupMap and GroupSet provide multiple indices on a set in a way that most people will find too confusing to bother with.
 
 
-### Build:
-$ ant
+### Build  
+```gradlew assemble```
 
 
-### Runtime:
-After build, add all jars in **lib** and **target** directories to your project.
+### Include  
+Using gradle:  
 
-
-### Dependencies:
-None.
+```groovy
+repositories {  
+ ...  
+ maven { url "https://jitpack.io" }  
+}  
+dependencies {  
+ compile 'com.github.decamp:vec:0.0.0'  
+}
+```
 
 ---
 Author: Philip DeCamp
