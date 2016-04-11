@@ -12,7 +12,7 @@ package bits.collect;
  * @see java.util.Iterator
  */
 public interface LongIterator {
-    public boolean hasNext();
-    public long next();
-    public void remove();
+    boolean hasNext();
+    long next();
+    void remove();
 }

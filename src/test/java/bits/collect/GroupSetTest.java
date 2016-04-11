@@ -22,8 +22,8 @@ public class GroupSetTest {
     private static Comparator<Integer> ORDER = new Comparator<Integer>() {
         @Override
         public int compare( Integer a, Integer b ) {
-            int aa = a.intValue();
-            int bb = b.intValue();
+            int aa = a;
+            int bb = b;
 
             if( aa < bb ) {
                 return -1;
@@ -357,7 +357,7 @@ public class GroupSetTest {
             Comparable<Integer> comp = new Comparable<Integer>() {
                 @Override
                 public int compareTo( Integer value ) {
-                    int v = value.intValue();
+                    int v = value;
 
                     if( v < startPoint ) {
                         return 1;

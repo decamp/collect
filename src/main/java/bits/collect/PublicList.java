@@ -31,8 +31,7 @@ public class PublicList<T> extends AbstractCollection<T> implements List<T> {
     public static <T> PublicList<T> create( Class<T> clazz ) {
         return create( clazz, 10 );
     }
-    
- 
+
     @SuppressWarnings( "unchecked" )
     public static <T> PublicList<T> create( Class<T> clazz, int capacity ) {
         return new PublicList<T>( (T[])java.lang.reflect.Array.newInstance( clazz, capacity ) );

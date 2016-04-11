@@ -17,8 +17,8 @@ public class GroupMapTest {
 
     private static Comparator<Integer> ORDER = new Comparator<Integer>() {
         public int compare(Integer a, Integer b) {
-            int aa = a.intValue();
-            int bb = b.intValue();
+            int aa = a;
+            int bb = b;
             
             if(aa < bb)
                 return -1;
