@@ -22,7 +22,7 @@ repositories {
  maven { url "https://jitpack.io" }  
 }  
 dependencies {  
- compile 'com.github.decamp:vec:0.0.0'  
+ compile 'com.github.decamp:collect:0.0.0'  
 }
 ```
 
