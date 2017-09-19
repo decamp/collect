@@ -23,7 +23,7 @@ public class LongIntervalMapTest {
 
 
     @Test public void testGet() {
-        LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+        LongIntervalMap<long[]> map = new LongIntervalMap<>();
         StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
         RandomIter iter = new RandomIter( getSeed(), 0, 100 );
@@ -55,7 +55,7 @@ public class LongIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 5 );
-            LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            LongIntervalMap<long[]> map = new LongIntervalMap<>();
             StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -71,9 +71,9 @@ public class LongIntervalMapTest {
                 long[] a = map.getIntersection( key );
                 long[] b = stupid.getIntersecting( key );
 
-                if( a != b && (a == null || !a.equals( b )) ) {
-                    System.out.println( a );
-                    System.out.println( b );
+                if( a != b && (a == null || !Arrays.equals( a, b )) ) {
+                    System.out.println( Arrays.toString( a ) );
+                    System.out.println( Arrays.toString( b ) );
                     map.getIntersection( key );
                 }
 
@@ -90,7 +90,7 @@ public class LongIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 100 );
-            final LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            final LongIntervalMap<long[]> map = new LongIntervalMap<>();
             final StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -101,7 +101,7 @@ public class LongIntervalMapTest {
 
             for( int i = 0; i < testCount; i++ ) {
                 long[] key = iter.next();
-                Collection<long[]> a = new ArrayList<long[]>( map.intersectionKeySet( key ) );
+                Collection<long[]> a = new ArrayList<>( map.intersectionKeySet( key ) );
                 List<long[]> b = stupid.getAllIntersecting( key );
                 assertDeepEquals( a, b );
             }
@@ -110,7 +110,7 @@ public class LongIntervalMapTest {
 
 
     @Test public void testGetSuperset() {
-        LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+        LongIntervalMap<long[]> map = new LongIntervalMap<>();
         StupidLongIntervalMap stupid = new StupidLongIntervalMap();
         RandomIter iter = new RandomIter( getSeed(), 0, 1000 );
 
@@ -138,7 +138,7 @@ public class LongIntervalMapTest {
 
 
     @Test public void testGetSubset() {
-        LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+        LongIntervalMap<long[]> map = new LongIntervalMap<>();
         StupidLongIntervalMap stupid = new StupidLongIntervalMap();
         RandomIter iter = new RandomIter( getSeed(), 0, 1000 );
 
@@ -172,11 +172,11 @@ public class LongIntervalMapTest {
     @Test public void testGetAllSupersets() {
 
         RandomIter iter = new RandomIter( getSeed(), 0, 1000 );
-        final int testCount = 1000;
+        final int testCount = 100;
         final int subtestCount = 100;
 
         for( int t = 0; t < testCount; t++ ) {
-            final LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            final LongIntervalMap<long[]> map = new LongIntervalMap<>();
             final StupidLongIntervalMap stupid = new StupidLongIntervalMap();
             final int keyCount = iter.mRand.nextInt( 200 );
 
@@ -190,7 +190,7 @@ public class LongIntervalMapTest {
             for( int i = 0; i < subtestCount; i++ ) {
                 long[] key = iter.next();
 
-                Collection<long[]> a = new ArrayList<long[]>( map.supersetKeySet( key ) );
+                Collection<long[]> a = new ArrayList<>( map.supersetKeySet( key ) );
                 List<long[]> b = stupid.getAllContaining( key );
 
                 if( a.size() != b.size() ) {
@@ -207,11 +207,11 @@ public class LongIntervalMapTest {
     @Test public void testGetAllSubsets() {
 
         RandomIter iter = new RandomIter( getSeed(), 0, 2000 );
-        final int testCount = 2000;
+        final int testCount = 500;
         final int subtestCount = 200;
 
         for( int t = 0; t < testCount; t++ ) {
-            final LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            final LongIntervalMap<long[]> map = new LongIntervalMap<>();
             final StupidLongIntervalMap stupid = new StupidLongIntervalMap();
             final int keyCount = iter.mRand.nextInt( 200 );
 
@@ -225,7 +225,7 @@ public class LongIntervalMapTest {
             for( int i = 0; i < subtestCount; i++ ) {
                 long[] key = iter.next();
 
-                Collection<long[]> a = new ArrayList<long[]>( map.subsetKeySet( key ) );
+                Collection<long[]> a = new ArrayList<>( map.subsetKeySet( key ) );
                 List<long[]> b = stupid.getAllContained( key );
 
                 if( a.size() != b.size() ) {
@@ -240,10 +240,10 @@ public class LongIntervalMapTest {
 
 
     @Test public void testRemove() {
-        LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+        LongIntervalMap<long[]> map = new LongIntervalMap<>();
         RandomIter iter = new RandomIter( getSeed(), 0, 10000 );
         Random rand = new Random( 1 );
-        List<long[]> list = new ArrayList<long[]>();
+        List<long[]> list = new ArrayList<>();
 
         final int count = 10000;
 
@@ -286,7 +286,7 @@ public class LongIntervalMapTest {
 
 
     @Test public void testRemoveAll() {
-        LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+        LongIntervalMap<long[]> map = new LongIntervalMap<>();
         StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
         RandomIter iter = new RandomIter( getSeed(), 0, 10 );
@@ -301,7 +301,7 @@ public class LongIntervalMapTest {
 
             } else {
                 long[] key = iter.next();
-                List<long[]> a = new ArrayList<long[]>( map.equivKeySet( key ) );
+                List<long[]> a = new ArrayList<>( map.equivKeySet( key ) );
                 map.equivEntrySet( key ).clear();
                 List<long[]> b = stupid.removeAll( key );
                 assertDeepEquals( a, b );
@@ -319,7 +319,7 @@ public class LongIntervalMapTest {
 
         for( int i = 0; i < count; i++ ) {
 
-            LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            LongIntervalMap<long[]> map = new LongIntervalMap<>();
             StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
             long[] key = null;
@@ -362,8 +362,8 @@ public class LongIntervalMapTest {
         RandomIter iter = new RandomIter( getSeed(), 0, 50 );
 
         for( int i = 0; i < 10; i++ ) {
-            LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
-            List<long[]> list = new ArrayList<long[]>();
+            LongIntervalMap<long[]> map = new LongIntervalMap<>();
+            List<long[]> list = new ArrayList<>();
 
             for( int j = 0; j < 100; j++ ) {
                 long[] key = iter.next();
@@ -392,7 +392,7 @@ public class LongIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 5 );
-            LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            LongIntervalMap<long[]> map = new LongIntervalMap<>();
             StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -426,7 +426,7 @@ public class LongIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 20 );
-            LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            LongIntervalMap<long[]> map = new LongIntervalMap<>();
             StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -460,7 +460,7 @@ public class LongIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 20 );
-            LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            LongIntervalMap<long[]> map = new LongIntervalMap<>();
             StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -494,7 +494,7 @@ public class LongIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 20 );
-            LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            LongIntervalMap<long[]> map = new LongIntervalMap<>();
             StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -520,6 +520,7 @@ public class LongIntervalMapTest {
     }
 
 
+    @Ignore
     @Test public void testSpeed() {
         RandomIter iter = new RandomIter( getSeed(), 0, 10000 );
         final int testCount = 50;
@@ -534,7 +535,7 @@ public class LongIntervalMapTest {
             iter.setSparseness( 0.001 );
 
             final int keyCount = iter.mRand.nextInt( 20000 );
-            final LongIntervalMap<long[]> map = new LongIntervalMap<long[]>();
+            final LongIntervalMap<long[]> map = new LongIntervalMap<>();
             final StupidLongIntervalMap stupid = new StupidLongIntervalMap();
 
             for( int i = 0; i < keyCount; i++ ) {
@@ -543,7 +544,7 @@ public class LongIntervalMapTest {
                 stupid.put( key, key );
             }
 
-            List<long[]> testSet = new ArrayList<long[]>();
+            List<long[]> testSet = new ArrayList<>();
 
             for( int i = 0; i < subtestCount; i++ ) {
                 testSet.add( iter.next() );
@@ -555,7 +556,7 @@ public class LongIntervalMapTest {
             startNanos = System.nanoTime();
 
             for( long[] key : testSet ) {
-                ArrayList<long[]> list = new ArrayList<long[]>();
+                ArrayList<long[]> list = new ArrayList<>();
                 list.addAll( map.intersectionKeySet( key[0], key[1] ) );
                 list.clear();
                 list.addAll( map.supersetKeySet( key[0], key[1] ) );

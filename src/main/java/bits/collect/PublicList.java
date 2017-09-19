@@ -34,7 +34,7 @@ public class PublicList<T> extends AbstractCollection<T> implements List<T> {
 
     @SuppressWarnings( "unchecked" )
     public static <T> PublicList<T> create( Class<T> clazz, int capacity ) {
-        return new PublicList<T>( (T[])java.lang.reflect.Array.newInstance( clazz, capacity ) );
+        return new PublicList<>( (T[])java.lang.reflect.Array.newInstance( clazz, capacity ) );
     }
     
     
@@ -219,7 +219,7 @@ public class PublicList<T> extends AbstractCollection<T> implements List<T> {
     /**
      * Currently unsupported. 
      * 
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException always
      */
     public List<T> subList( int n0, int n1 ) {
         throw new UnsupportedOperationException();
@@ -397,17 +397,6 @@ public class PublicList<T> extends AbstractCollection<T> implements List<T> {
             PublicList.this.set( mPrev, item );
         }
         
-    }
-
-
-
-    @Deprecated public static <T> PublicList<T> newInstance( Class<T> clazz ) {
-        return newInstance( clazz, 10 );
-    }
-    
- 
-    @Deprecated public static <T> PublicList<T> newInstance( Class<T> clazz, int capacity ) {
-        return new PublicList<T>( (T[])java.lang.reflect.Array.newInstance( clazz, capacity ) );
     }
 
 }

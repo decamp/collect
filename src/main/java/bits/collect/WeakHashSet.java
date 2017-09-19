@@ -33,7 +33,7 @@ public class WeakHashSet<E> extends AbstractSet<E> {
     static final int   MAXIMUM_CAPACITY         = 1 << 30;
 
 
-    private final transient ReferenceQueue<E> mQueue = new ReferenceQueue<E>();
+    private final transient ReferenceQueue<E> mQueue = new ReferenceQueue<>();
 
     private           Node<E>[] mBuckets;
     private transient int       mSize;
@@ -127,9 +127,7 @@ public class WeakHashSet<E> extends AbstractSet<E> {
         }
 
         mSize = 0;
-        while( mQueue.poll() != null ) {
-            ;
-        }
+        while( mQueue.poll() != null ) {}
     }
 
     @Override
@@ -275,7 +273,7 @@ public class WeakHashSet<E> extends AbstractSet<E> {
         mModCount++;
         Node<E>[] buckets = mBuckets;
         Node<E> node = buckets[idx];
-        node = new Node<E>( element, hash, node, mQueue );
+        node = new Node<>( element, hash, node, mQueue );
         buckets[idx] = node;
 
         if( mSize++ >= mThreshold ) {

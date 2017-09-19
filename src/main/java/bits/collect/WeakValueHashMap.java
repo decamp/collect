@@ -37,7 +37,7 @@ public class WeakValueHashMap<K, V> extends AbstractMap<K, V> {
     static final int MAXIMUM_CAPACITY = 1 << 30;
     
 
-    private final transient ReferenceQueue<V> mQueue = new ReferenceQueue<V>();
+    private final transient ReferenceQueue<V> mQueue = new ReferenceQueue<>();
 
     private RefEntry<K, V>[] mBuckets;
     private transient int mSize;
@@ -240,7 +240,7 @@ public class WeakValueHashMap<K, V> extends AbstractMap<K, V> {
 
     private void addEntry( K key, V value, int hash, int idx, boolean increment ) {
         RefEntry<K, V> entry = mBuckets[idx];
-        entry = new RefEntry<K, V>( key, value, hash, entry, mQueue );
+        entry = new RefEntry<>( key, value, hash, entry, mQueue );
         mBuckets[idx] = entry;
 
         if( increment && mSize++ >= mThreshold ) {

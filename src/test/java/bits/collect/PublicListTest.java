@@ -62,7 +62,7 @@ public class PublicListTest {
     }
     
     
-    @Test
+    @Test @Ignore
     @SuppressWarnings( { "rawtypes", "unchecked" } )
     public void testSpeed() {
         final int trials = 20;

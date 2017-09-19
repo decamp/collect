@@ -45,13 +45,7 @@ public class LongIntervalMap<V> extends IntervalMap<long[], V> {
      */
     public static final IntervalComparator<long[]> LONG_PAIR_COMP = new IntervalComparator<long[]>() {
         public int compareMins( long[] a, long[] b ) {
-            if( a[0] < b[0] ) {
-                return -1;
-            }
-            if( a[0] > b[0] ) {
-                return 1;
-            }
-            return 0;
+            return Long.compare( a[0], b[0] );
         }
 
         public int compareMaxes( long[] a, long[] b ) {

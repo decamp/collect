@@ -31,7 +31,7 @@ public interface LongMap<V> {
     int           size();
     Collection<V> values();
 
-    static interface Entry<V> {
+    interface Entry<V> {
         long getKey();
         V getValue();
         V setValue( V value );

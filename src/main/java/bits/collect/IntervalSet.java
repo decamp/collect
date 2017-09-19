@@ -45,7 +45,7 @@ public class IntervalSet<E> implements Set<E> {
 
 
     public IntervalSet( IntervalComparator<? super E> comp, Collection<? extends E> values ) {
-        mMap = new IntervalMap<E, E>( comp );
+        mMap = new IntervalMap<>( comp );
         mKeyView = mMap.keySet();
 
         if( values != null ) {

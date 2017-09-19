@@ -27,7 +27,7 @@ public class DoubleIntervalMapTest {
 
     @Test
     public void testGet() {
-        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
         StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
         RandomIter iter = new RandomIter( getSeed(), 0, 100 );
@@ -60,7 +60,7 @@ public class DoubleIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 5 );
-            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -76,9 +76,9 @@ public class DoubleIntervalMapTest {
                 double[] a = map.getIntersection( key );
                 double[] b = stupid.getIntersecting( key );
 
-                if( a != b && (a == null || !a.equals( b )) ) {
-                    System.out.println( a );
-                    System.out.println( b );
+                if( a != b && (a == null || !Arrays.equals( a, b )) ) {
+                    System.out.println( Arrays.toString( a ) );
+                    System.out.println( Arrays.toString( b ) );
                     map.getIntersection( key );
                 }
 
@@ -96,7 +96,7 @@ public class DoubleIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 100 );
-            final DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            final DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             final StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -107,7 +107,7 @@ public class DoubleIntervalMapTest {
 
             for( int i = 0; i < testCount; i++ ) {
                 double[] key = iter.next();
-                Collection<double[]> a = new ArrayList<double[]>( map.intersectionKeySet( key ) );
+                Collection<double[]> a = new ArrayList<>( map.intersectionKeySet( key ) );
                 List<double[]> b = stupid.getAllIntersecting( key );
                 assertDeepEquals( a, b );
             }
@@ -117,7 +117,7 @@ public class DoubleIntervalMapTest {
 
     @Test
     public void testGetSuperset() {
-        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
         StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
         RandomIter iter = new RandomIter( getSeed(), 0, 1000 );
 
@@ -146,7 +146,7 @@ public class DoubleIntervalMapTest {
 
     @Test
     public void testGetSubset() {
-        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
         StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
         RandomIter iter = new RandomIter( getSeed(), 0, 1000 );
 
@@ -185,7 +185,7 @@ public class DoubleIntervalMapTest {
         final int subtestCount = 100;
 
         for( int t = 0; t < testCount; t++ ) {
-            final DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            final DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             final StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
             final int keyCount = iter.mRand.nextInt( 200 );
 
@@ -199,7 +199,7 @@ public class DoubleIntervalMapTest {
             for( int i = 0; i < subtestCount; i++ ) {
                 double[] key = iter.next();
 
-                Collection<double[]> a = new ArrayList<double[]>( map.supersetKeySet( key ) );
+                Collection<double[]> a = new ArrayList<>( map.supersetKeySet( key ) );
                 List<double[]> b = stupid.getAllContaining( key );
 
                 if( a.size() != b.size() ) {
@@ -217,11 +217,11 @@ public class DoubleIntervalMapTest {
     public void testGetAllSubsets() {
 
         RandomIter iter = new RandomIter( getSeed(), 0, 2000 );
-        final int testCount = 2000;
+        final int testCount = 500;
         final int subtestCount = 200;
 
         for( int t = 0; t < testCount; t++ ) {
-            final DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            final DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             final StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
             final int keyCount = iter.mRand.nextInt( 200 );
 
@@ -235,7 +235,7 @@ public class DoubleIntervalMapTest {
             for( int i = 0; i < subtestCount; i++ ) {
                 double[] key = iter.next();
 
-                Collection<double[]> a = new ArrayList<double[]>( map.subsetKeySet( key ) );
+                Collection<double[]> a = new ArrayList<>( map.subsetKeySet( key ) );
                 List<double[]> b = stupid.getAllContained( key );
 
                 if( a.size() != b.size() ) {
@@ -251,10 +251,10 @@ public class DoubleIntervalMapTest {
 
     @Test
     public void testRemove() {
-        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
         RandomIter iter = new RandomIter( getSeed(), 0, 10000 );
         Random rand = new Random( 1 );
-        List<double[]> list = new ArrayList<double[]>();
+        List<double[]> list = new ArrayList<>();
 
         final int count = 10000;
 
@@ -298,7 +298,7 @@ public class DoubleIntervalMapTest {
 
     @Test
     public void testRemoveAll() {
-        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+        DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
         StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
         RandomIter iter = new RandomIter( getSeed(), 0, 10 );
@@ -313,7 +313,7 @@ public class DoubleIntervalMapTest {
 
             } else {
                 double[] key = iter.next();
-                List<double[]> a = new ArrayList<double[]>( map.equivKeySet( key ) );
+                List<double[]> a = new ArrayList<>( map.equivKeySet( key ) );
                 map.equivEntrySet( key ).clear();
                 List<double[]> b = stupid.removeAll( key );
                 assertDeepEquals( a, b );
@@ -332,7 +332,7 @@ public class DoubleIntervalMapTest {
 
         for( int i = 0; i < count; i++ ) {
 
-            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
             double[] key = null;
@@ -376,8 +376,8 @@ public class DoubleIntervalMapTest {
         RandomIter iter = new RandomIter( getSeed(), 0, 50 );
 
         for( int i = 0; i < 10; i++ ) {
-            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
-            List<double[]> list = new ArrayList<double[]>();
+            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
+            List<double[]> list = new ArrayList<>();
 
             for( int j = 0; j < 100; j++ ) {
                 double[] key = iter.next();
@@ -407,7 +407,7 @@ public class DoubleIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 5 );
-            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -442,7 +442,7 @@ public class DoubleIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 20 );
-            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -477,7 +477,7 @@ public class DoubleIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 20 );
-            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -512,7 +512,7 @@ public class DoubleIntervalMapTest {
 
         for( int t = 0; t < testCount; t++ ) {
             final int keyCount = iter.mRand.nextInt( 20 );
-            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
             for( int k = 0; k < keyCount; k++ ) {
@@ -554,7 +554,7 @@ public class DoubleIntervalMapTest {
             iter.setSparseness( 0.001 );
 
             final int keyCount = iter.mRand.nextInt( 20000 );
-            final DoubleIntervalMap<double[]> map = new DoubleIntervalMap<double[]>();
+            final DoubleIntervalMap<double[]> map = new DoubleIntervalMap<>();
             final StupidDoubleIntervalMap stupid = new StupidDoubleIntervalMap();
 
             for( int i = 0; i < keyCount; i++ ) {
@@ -563,7 +563,7 @@ public class DoubleIntervalMapTest {
                 stupid.put( key, key );
             }
 
-            List<double[]> testSet = new ArrayList<double[]>();
+            List<double[]> testSet = new ArrayList<>();
 
             for( int i = 0; i < subtestCount; i++ ) {
                 testSet.add( iter.next() );
@@ -575,7 +575,7 @@ public class DoubleIntervalMapTest {
             startNanos = System.nanoTime();
 
             for( double[] key : testSet ) {
-                ArrayList<double[]> list = new ArrayList<double[]>();
+                ArrayList<double[]> list = new ArrayList<>();
                 list.addAll( map.intersectionKeySet( key[0], key[1] ) );
                 list.clear();
                 list.addAll( map.supersetKeySet( key[0], key[1] ) );
@@ -667,7 +667,7 @@ public class DoubleIntervalMapTest {
             }
 
             double a = Math.abs( mRand.nextLong() % (mMax - mMin) ) + mMin;
-            double b = (double)(Math.abs( mRand.nextLong() % (mMax - mMin) ) * mSparseness + 0.5);
+            double b = Math.abs( mRand.nextLong() % (mMax - mMin) ) * mSparseness + 0.5;
 
             return new double[]{ a, a + b };
         }

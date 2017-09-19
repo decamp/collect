@@ -24,7 +24,7 @@ public class Iterators {
 
 
     public static <E> Iterator<E> wrapObject( E obj ) {
-        return new SingleIterator<E>( obj );
+        return new SingleIterator<>( obj );
     }
 
     @SuppressWarnings( "unchecked" )
@@ -32,7 +32,7 @@ public class Iterators {
         if( arr == null ) {
             return EMPTY_ITERATOR;
         }
-        return new ArrayIterator<E>( arr );
+        return new ArrayIterator<>( arr );
     }
 
     @SuppressWarnings( "unchecked" )
@@ -40,7 +40,7 @@ public class Iterators {
         if( arr == null && len == 0 ) {
             return EMPTY_ITERATOR;
         }
-        return new ArrayIterator<E>( arr, off, len );
+        return new ArrayIterator<>( arr, off, len );
     }
 
 

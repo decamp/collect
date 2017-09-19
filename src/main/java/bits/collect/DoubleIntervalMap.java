@@ -45,13 +45,7 @@ public class DoubleIntervalMap<V> extends IntervalMap<double[], V> {
      */
     public static final IntervalComparator<double[]> DOUBLE_PAIR_COMP = new IntervalComparator<double[]>() {
         public int compareMins( double[] a, double[] b ) {
-            if( a[0] < b[0] ) {
-                return -1;
-            }
-            if( a[0] > b[0] ) {
-                return 1;
-            }
-            return 0;
+            return Double.compare( a[0], b[0] );
         }
 
         public int compareMaxes( double[] a, double[] b ) {

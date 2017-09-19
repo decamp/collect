@@ -7,7 +7,7 @@ buildscript {
 group = 'com.github.decamp'
 buildDir = "$projectDir/build"
 description = 'Data Collections Lib'
-version = '0.0.0'
+version = '0.0.1'
 
 repositories {
     jcenter()
@@ -27,6 +27,13 @@ targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
     testCompile 'junit:junit:4.11'
+}
+
+// Workaround for intellij bug.
+if( project.convention.findPlugin( JavaPluginConvention ) ) {
+    // Change the output directory for the main and test source sets back to the old path
+    sourceSets.main.output.classesDir = new File( buildDir, "classes/main" )
+    sourceSets.test.output.classesDir = new File( buildDir, "classes/test" )
 }
 
 test {

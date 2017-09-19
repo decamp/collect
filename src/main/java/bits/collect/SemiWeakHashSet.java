@@ -35,7 +35,7 @@ public class SemiWeakHashSet<E> extends AbstractSet<E> {
     static final int MAXIMUM_CAPACITY = 1 << 30;
 
 
-    private final transient ReferenceQueue<E> mQueue = new ReferenceQueue<E>();
+    private final transient ReferenceQueue<E> mQueue = new ReferenceQueue<>();
 
     private Node<E>[] mBuckets;
     private transient int mSize;
@@ -283,7 +283,7 @@ public class SemiWeakHashSet<E> extends AbstractSet<E> {
         mModCount++;
         Node<E>[] buckets = mBuckets;
         Node<E> node = buckets[idx];
-        node = new Node<E>( element, strong, hash, node, mQueue );
+        node = new Node<>( element, strong, hash, node, mQueue );
         buckets[idx] = node;
 
         if( mSize++ >= mThreshold ) {

@@ -1100,7 +1100,7 @@ public class TreeValueMap<K,V> extends AbstractMap<K,V> {
         
         while( true ) {
             if( ret == null ) {
-                newNode = new Node<K,V>( key, value, hash );
+                newNode = new Node<>( key, value, hash );
                 
                 mModCount++;
                 mKeyCount++;
@@ -1118,7 +1118,7 @@ public class TreeValueMap<K,V> extends AbstractMap<K,V> {
                     return ret;
                 }
                 
-                newNode = new Node<K,V>( key, value, hash );
+                newNode = new Node<>( key, value, hash );
                 removeNode( ret );
                 mModCount++;
                 

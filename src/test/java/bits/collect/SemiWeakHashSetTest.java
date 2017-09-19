@@ -24,11 +24,11 @@ public class SemiWeakHashSetTest {
     @Test
     public void testVacuum() {
         int strongCount = 0;
-        SemiWeakHashSet<double[]> set = new SemiWeakHashSet<double[]>();
+        SemiWeakHashSet<double[]> set = new SemiWeakHashSet<>();
         double[] keep = newRandomArray( 100 );
         set.addWeakly( keep );
 
-        for( int i = 0; i < 100000; i++ ) {
+        for( int i = 0; i < 50000; i++ ) {
             if( mRand.nextBoolean() ) {
                 set.add( newRandomArray( 100 ) );
                 strongCount++;

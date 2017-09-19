@@ -136,7 +136,7 @@ public class LongHashMap<V> implements LongMap<V> {
                 resize( mBuckets.length * 2 );
                 index = bucketIndex( key );
             }
-            node = new Node<V>( key, value, mBuckets[index] );
+            node = new Node<>( key, value, mBuckets[index] );
             mBuckets[index] = node;
             return null;
 
@@ -149,7 +149,7 @@ public class LongHashMap<V> implements LongMap<V> {
 
     @SuppressWarnings( { "unchecked", "rawtypes" } )
     public void putAll( LongMap<? extends V> m ) {
-        for( Iterator iter = (Iterator)m.entrySet().iterator(); iter.hasNext(); ) {
+        for( Iterator iter = m.entrySet().iterator(); iter.hasNext(); ) {
             Entry e = (Entry)iter.next();
             put( e.getKey(), (V)e.getValue() );
         }
@@ -201,9 +201,7 @@ public class LongHashMap<V> implements LongMap<V> {
                     }
                 }
             }
-        } catch( ClassCastException unused ) {
-            return false;
-        } catch( NullPointerException unused ) {
+        } catch( ClassCastException | NullPointerException unused ) {
             return false;
         }
 
@@ -323,8 +321,8 @@ public class LongHashMap<V> implements LongMap<V> {
 
         Node<V>[] newBuckets = mBuckets = new Node[newCapacity];
 
-        for( int i = 0; i < oldBuckets.length; i++ ) {
-            Node<V> entry = oldBuckets[i];
+        for( Node<V> oldBucket : oldBuckets ) {
+            Node<V> entry = oldBucket;
             while( entry != null ) {
                 Node<V> next = entry.mNext;
 

@@ -133,9 +133,7 @@ public class LongHashSet extends AbstractLongSet implements LongSet {
                     return false;
                 }
             }
-        } catch( ClassCastException unused ) {
-            return false;
-        } catch( NullPointerException unused ) {
+        } catch( ClassCastException | NullPointerException unused ) {
             return false;
         }
 

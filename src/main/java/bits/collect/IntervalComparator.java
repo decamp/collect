@@ -25,7 +25,7 @@ public interface IntervalComparator<T> {
      *         0 iff equivalent; positive mValue iff min of <tt>a</tt> is greater
      *         than min of <tt>b</tt>
      */
-    public int compareMins( T a, T b );
+    int compareMins( T a, T b );
 
     /**
      * Compare the maximum values of two intervals.
@@ -36,7 +36,7 @@ public interface IntervalComparator<T> {
      *         0 iff equivalent; positive mValue iff max of <tt>a</tt> is greater
      *         than max of <tt>b</tt>
      */
-    public int compareMaxes( T a, T b );
+    int compareMaxes( T a, T b );
 
     /**
      * Compare the minimum mValue of one interval to the maximum mValue of
@@ -48,6 +48,6 @@ public interface IntervalComparator<T> {
      *         <tt>b</tt>; 0 iff equivalent; positive mValue iff min of <tt>a</tt> is
      *         greater than maxof <tt>b</tt>
      */
-    public int compareMinToMax( T a, T b );
+    int compareMinToMax( T a, T b );
 
 }
